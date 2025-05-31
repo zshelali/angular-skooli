@@ -1,0 +1,41 @@
+<div class="UE_name mt-3">
+  <h1>{{ ue.code }} : {{ ue.name }}</h1>
+</div>
+
+<ul class="nav nav-tabs mt-4">
+  <li class="nav-item">
+    <a class="nav-link" [class.active]="activeTab === 'posts'" (click)="activeTab = 'posts'">Posts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [class.active]="activeTab === 'users'" (click)="activeTab = 'users'">Users</a>
+  </li>
+</ul>
+
+<div class="tab-content mt-3">
+
+  <!-- Posts Tab -->
+  <div class="tab-pane fade show active" *ngIf="activeTab === 'posts'">
+    <div class="card mb-3" *ngFor="let post of posts">
+      <div class="card-header">
+        {{ post.author }} – {{ post.date | date: 'dd.MM.yyyy HH:mm' }}
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">{{ post.title }}</h5>
+        <p class="card-text">{{ post.content }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Users Tab -->
+  <div class="tab-pane fade show active" *ngIf="activeTab === 'users'">
+    <ul class="list-group">
+      <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let user of users">
+        <span>
+          {{ user.name }} – {{ user.email }}
+        </span>
+        <span class="badge bg-primary">{{ user.role }}</span>
+      </li>
+    </ul>
+  </div>
+
+</div>

@@ -1,0 +1,21 @@
+<div class="container mt-5">
+  <div class="row row-cols-1 row-cols-md-3 g-4 mt-4">
+    <div class="col" *ngFor="let course of courses">
+      <a routerLink="/ue">
+        <div class="card h-100">
+          <img [src]="course.image" class="card-img-top" alt="course image" />
+          <div class="card-body">
+            <h5 class="card-title">{{ course.title }}</h5>
+            <p class="card-text">{{ course.description }}</p>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted"
+              >Last updated
+              {{ course.date_updated | date : "dd.MM.yyyy hh:mm" }}</small
+            >
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>

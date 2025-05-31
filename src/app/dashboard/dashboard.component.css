@@ -1,0 +1,18 @@
+a {
+    color: inherit; 
+    text-decoration: inherit; /* no underline */
+}
+
+.card-img-top {
+    height: 100px;
+    width: 100%; 
+    object-fit: cover;
+  }
+
+  .card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+  }
+
