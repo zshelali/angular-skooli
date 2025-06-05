@@ -40,3 +40,14 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# === Express Backend ===
+
+# Node modules for backend
+/backend/node_modules/
+
+# Environment variables
+/backend/.env
+
+# Backend logs
+/backend/*.log
