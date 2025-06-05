@@ -4,7 +4,7 @@
 - Angular (v13.3.3) + Node.js (v16.14.2) + npm (v8.5.0) installed
 - MongoDB server running, and its URI defined in .env
 - `npm install` to install dependencies
-- `npm start` : **automatically** runs `ng serve` and `node server.js` using concurrency.
+- `npm start` : **automatically** runs `ng serve` and `node server.js` using concurrency
 
 ### Tip: 
 
