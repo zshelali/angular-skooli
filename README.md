@@ -1,3 +1,22 @@
+# Note for development:
+
+**In order to run the project, follow these steps:**
+- Angular (v13.3.3) + Node.js (v16.14.2) + npm (v8.5.0) installed
+- MongoDB server running, and its URI defined in .env
+- `npm install` to install dependencies
+- `npm start` : **automatically** runs `ng serve` and `node server.js` using concurrency.
+
+### Tip: 
+
+.env should look like this:
+```
+MONGO_URI=mongodb://localhost:27017/collection_name
+PORT=3000 //or any other available port :D
+```
+
+$-Ali$
+---- 
+
 # AngularSkooli
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.3.
