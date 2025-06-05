@@ -11,7 +11,8 @@ app.use(cors());
 
 connectToMongoDB()
   .then(() => {
-    app.use('/api/auth', require('./routes/auth.routes'));
+    app.use('/api/secret', require('./routes/protected.route'));
+    app.use('/api/auth', require('./routes/auth.route'));
 
     const PORT = process.env.PORT || 3000;
     app.listen(PORT, () => {
@@ -19,5 +20,5 @@ connectToMongoDB()
     });
   })
   .catch(err => {
-    console.error(`Failed to connect to MongoDB: ${err}`);
+    console.error(`Failed to connect to MongoDB😢: ${err}`);
   });

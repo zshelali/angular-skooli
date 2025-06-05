@@ -1,5 +1,6 @@
 const {getDB} = require('../db');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 // receive the http request
 async function authController(req, res) {
@@ -28,9 +29,19 @@ async function authController(req, res) {
       return res.status(401).json({message: 'Invalid credentials.'}) //invalid password
     }
 
+    const token = jwt.sign(
+      {id: user._id, role: user.role},
+      process.env.JWT_SECRET,
+      {expiresIn: '1h'} //⛔️⛔️⛔️change this!!!!!
+    );
+
     // send a success response, stripped out password
     const {password: _, ...userData} = user;
-    return res.status(200).json({message: 'Login successful.🗡️', user:userData})
+    return res.status(200).json({
+      message: 'Login successful.🗡️', 
+      user:userData,
+      token: token
+    })
 
   }
   // catch errors

@@ -10,8 +10,9 @@
 
 .env should look like this:
 ```
-MONGO_URI=mongodb://localhost:27017/collection_name
-PORT=3000 //or any other available port :D
+MONGO_URI=mongodb://localhost:27017/collection_name //you created it 🫵
+PORT=port //3000 or any other available port 🤷‍♂️
+JWT_SECRET=secret_password //whatever? 
 ```
 
 $-Ali$
