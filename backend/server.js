@@ -20,5 +20,5 @@ connectToMongoDB()
     });
   })
   .catch(err => {
-    console.error(`Failed to connect to MongoDB😢: ${err}`);
+    console.error(`Failed to connect to MongoDB😢 (You probably have a problem with your .env): ${err}`);
   });
