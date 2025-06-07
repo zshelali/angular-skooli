@@ -1,31 +1,89 @@
-<div class="mt-4">
-    <h3 class="mb-4">Modules</h3>
+<div class="UE_name mt-3">
+    <h1>{{ ue.code }} : {{ ue.name }}</h1>
+</div>
 
-    <div *ngFor="let module of modules" class="module-folder p-3 mb-3 shadow-sm rounded bg-white">
-        <div class="d-flex justify-content-between align-items-center">
-            <h5 class="mb-0"><i class="bi bi-folder-fill text-warning me-2"></i>{{ module.title }}</h5>
-            <button class="btn btn-outline-secondary btn-sm rounded-circle" (click)="toggleModule(module)">
-        <i class="bi" [ngClass]="module.isOpen ? 'bi-dash' : 'bi-plus'"></i>
-      </button>
+<ul class="nav nav-tabs mt-4">
+    <li class="nav-item">
+        <a class="nav-link" [class.active]="activeTab === 'cours'" (click)="activeTab = 'cours'">Cours</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" [class.active]="activeTab === 'users'" (click)="activeTab = 'users'">Utilisateurs</a>
+    </li>
+</ul>
+
+<div class="tab-content mt-4">
+
+    <!-- Onglet Cours -->
+    <div *ngIf="activeTab === 'cours'">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3 class="mb-0">Modules</h3>
+            <button class="btn btn-outline-success" (click)="showAddForm = !showAddForm">
+              <i class="bi bi-plus-lg"></i>
+            </button>
         </div>
 
-        <div *ngIf="module.isOpen" class="mt-3 module-content">
-            <p class="mb-3">{{ module.description }}</p>
-
-            <div *ngIf="module.files.length > 0">
-                <h6>Fichiers :</h6>
-                <ul class="list-group">
-                    <li class="list-group-item d-flex align-items-center" *ngFor="let file of module.files">
-                        <i class="bi me-2" [ngClass]="{
-                 'bi-file-earmark-pdf-fill text-danger': file.type === 'pdf',
-                 'bi-file-image-fill text-info': file.type === 'image',
-                 'bi-file-earmark-fill': file.type !== 'pdf' && file.type !== 'image'
-               }"></i>
-                        <a [href]="file.url" target="_blank">{{ file.name }}</a>
-                    </li>
-                </ul>
+        <div *ngIf="showAddForm" class="card p-3 mb-4">
+            <div class="mb-3">
+                <label for="moduleTitle" class="form-label">Titre</label>
+                <input id="moduleTitle" class="form-control" [(ngModel)]="newModule.title" name="title" />
             </div>
-            <div *ngIf="module.files.length === 0" class="text-muted fst-italic">Aucun fichier.</div>
+
+            <div class="mb-3">
+                <label for="moduleDescription" class="form-label">Description</label>
+                <textarea id="moduleDescription" class="form-control" rows="3" [(ngModel)]="newModule.description" name="description"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Pièces jointes</label>
+                <input type="file" class="form-control" (change)="onFileSelected($event)" multiple />
+            </div>
+
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-secondary me-2" (click)="showAddForm = false">Annuler</button>
+                <button class="btn btn-primary" (click)="addModule()">Ajouter</button>
+            </div>
+        </div>
+
+        <div *ngFor="let module of modules" class="module-folder p-3 mb-3 shadow-sm rounded bg-white">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                    <i class="bi bi-folder-fill text-warning me-2"></i>{{ module.title }}
+                </h5>
+                <button class="btn btn-outline-secondary btn-sm rounded-circle" (click)="toggleModule(module)">
+          <i class="bi" [ngClass]="module.isOpen ? 'bi-dash' : 'bi-plus'"></i>
+        </button>
+            </div>
+
+            <div *ngIf="module.isOpen" class="mt-3 module-content">
+                <p class="mb-3">{{ module.description }}</p>
+
+                <div *ngIf="module.files.length > 0">
+                    <h6>Fichiers :</h6>
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex align-items-center" *ngFor="let file of module.files">
+                            <i class="bi me-2" [ngClass]="{
+                   'bi-file-earmark-pdf-fill text-danger': file.type === 'pdf',
+                   'bi-file-image-fill text-info': file.type === 'image',
+                   'bi-file-earmark-fill': file.type !== 'pdf' && file.type !== 'image'
+                 }"></i>
+                            <a [href]="file.url" target="_blank">{{ file.name }}</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div *ngIf="module.files.length === 0" class="text-muted fst-italic">Aucun fichier.</div>
+            </div>
         </div>
     </div>
+
+    <!-- Onglet Utilisateurs -->
+    <div *ngIf="activeTab === 'users'">
+        <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let user of users">
+                <span><i class="bi bi-person-circle me-2"></i>{{ user.name }} – {{ user.email }}</span>
+                <span class="badge bg-primary">{{ user.role }}</span>
+            </li>
+        </ul>
+    </div>
+
 </div>

@@ -1,66 +1,77 @@
-import { Component, OnInit } from '@angular/core';
+  import { Component, OnInit } from '@angular/core';
 
-@Component({
-  selector: 'app-ue',
-  templateUrl: './ue.component.html',
-  styleUrls: ['./ue.component.css']
-})
-export class UeComponent implements OnInit {
+  @Component({
+    selector: 'app-ue',
+    templateUrl: './ue.component.html',
+    styleUrls: ['./ue.component.css']
+  })
+  export class UeComponent implements OnInit {
 
-  activeTab: 'posts' | 'users' = 'posts';
+    activeTab: 'cours' | 'users' = 'cours';
 
-  ue = {
-    code: 'IT41',
-    name: 'Classical and Quantum Algorithms'
-  };
+    ue = {
+      code: 'IT41',
+      name: 'Quantum Computing Basics'
+    };
 
-  users = [
-    { name: 'Alice Martin', email: 'alice@example.com', role: 'Étudiant' },
-    { name: 'Jean Dupont', email: 'jean@example.com', role: 'Enseignant' },
-    { name: 'Claire Dubois', email: 'claire@example.com', role: 'Étudiant' }
-  ];
+    modules = [
+      {
+        title: 'Module 1 : Introduction',
+        description: 'Présentation du cours et des objectifs pédagogiques.',
+        files: [
+          { name: 'Intro.pdf', url: 'assets/files/intro.pdf', type: 'pdf' },
+          { name: 'Schéma.png', url: 'assets/files/schema.png', type: 'image' }
+        ],
+        isOpen: false
+      },
+      {
+        title: 'Module 2 : Qubits et logique',
+        description: 'Notions de superposition et de portes quantiques.',
+        files: [],
+        isOpen: false
+      }
+    ];
 
-  posts = [
-    {
-      type: 'file',
-      title: 'À IMPRIMER',
-      content: 'a ne pas oublier',
-      fileUrl: 'assets/files/doc.pdf',
-      author: 'Jean Dupont',
-      date: new Date('2025-04-28T11:43:00')
-    },
-    {
-      type: 'text',
-      title: 'WW',
-      content: 'wwwwwwwwwwwq',
-      author: 'Alice Martin',
-      date: new Date('2025-04-27T14:40:00')
+    users = [
+      { name: 'Alice Martin', email: 'alice@example.com', role: 'Étudiant' },
+      { name: 'Jean Dupont', email: 'jean@example.com', role: 'Enseignant' },
+      { name: 'Claire Dubois', email: 'claire@example.com', role: 'Étudiant' }
+    ];
+
+    showAddForm = false;
+
+    newModule = {
+      title: '',
+      description: '',
+      files: [] as File[]
+    };
+
+    constructor() {}
+
+    ngOnInit(): void {}
+
+    toggleModule(module: any): void {
+      module.isOpen = !module.isOpen;
     }
-  ];
 
-  modules = [
-  {
-    title: 'Module 1 : Introduction',
-    description: 'Ce module introduit les concepts fondamentaux.',
-    files: [
-      { name: 'Plan du cours.pdf', url: 'assets/files/plan.pdf', type: 'pdf' },
-      { name: 'image-exemple.png', url: 'assets/files/image.png', type: 'image' }
-    ],
-    isOpen: false
-  },
-  {
-    title: 'Module 2 : Théorie Quantique',
-    description: 'Focus sur les algorithmes quantiques.',
-    files: [],
-    isOpen: false
+    onFileSelected(event: any): void {
+      this.newModule.files = Array.from(event.target.files);
+    }
+
+    addModule(): void {
+      this.modules.push({
+        title: this.newModule.title,
+        description: this.newModule.description,
+        files: this.newModule.files.map(file => ({
+          name: file.name,
+          url: URL.createObjectURL(file),
+          type: file.type.includes('pdf') ? 'pdf' :
+                file.type.includes('image') ? 'image' : 'other'
+        })),
+        isOpen: false
+      });
+
+      this.newModule = { title: '', description: '', files: [] };
+      this.showAddForm = false;
+    }
   }
-];
-toggleModule(module: any) {
-  module.isOpen = !module.isOpen;
-}
-
-  constructor() { }
-
-  ngOnInit(): void {}
-
-}

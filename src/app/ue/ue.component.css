@@ -38,3 +38,19 @@ small {
     padding: 15px;
     border-radius: 8px;
 }
+
+.UE_name h1 {
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+.module-folder {
+    transition: all 0.3s ease;
+    border-left: 5px solid #ffc107;
+}
+
+.module-content {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+}
