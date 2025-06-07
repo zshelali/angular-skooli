@@ -7,13 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UeComponent implements OnInit {
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
   activeTab: 'posts' | 'users' = 'posts';
+
   ue = {
-    code: 'IT41', name: 'Sample UE',
+    code: 'IT41',
+    name: 'Classical and Quantum Algorithms'
   };
 
   users = [
@@ -24,17 +22,45 @@ export class UeComponent implements OnInit {
 
   posts = [
     {
-      title: 'Bienvenue sur le forum',
-      content: 'Ce forum est dédié aux échanges autour du cours.',
+      type: 'file',
+      title: 'À IMPRIMER',
+      content: 'a ne pas oublier',
+      fileUrl: 'assets/files/doc.pdf',
       author: 'Jean Dupont',
-      date: new Date('2025-05-01T10:15:00')
+      date: new Date('2025-04-28T11:43:00')
     },
     {
-      title: 'Question sur le TP 1',
-      content: 'Quelqu’un a-t-il réussi à faire marcher la base de données MongoDB ?',
+      type: 'text',
+      title: 'WW',
+      content: 'wwwwwwwwwwwq',
       author: 'Alice Martin',
-      date: new Date('2025-05-30T18:42:00')
+      date: new Date('2025-04-27T14:40:00')
     }
   ];
+
+  modules = [
+  {
+    title: 'Module 1 : Introduction',
+    description: 'Ce module introduit les concepts fondamentaux.',
+    files: [
+      { name: 'Plan du cours.pdf', url: 'assets/files/plan.pdf', type: 'pdf' },
+      { name: 'image-exemple.png', url: 'assets/files/image.png', type: 'image' }
+    ],
+    isOpen: false
+  },
+  {
+    title: 'Module 2 : Théorie Quantique',
+    description: 'Focus sur les algorithmes quantiques.',
+    files: [],
+    isOpen: false
+  }
+];
+toggleModule(module: any) {
+  module.isOpen = !module.isOpen;
+}
+
+  constructor() { }
+
+  ngOnInit(): void {}
 
 }
