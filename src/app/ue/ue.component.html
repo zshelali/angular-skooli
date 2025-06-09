@@ -1,8 +1,8 @@
-<div class="UE_name mt-3">
+<div class="UE_name m-4">
     <h1>{{ ue.code }} : {{ ue.name }}</h1>
 </div>
 
-<ul class="nav nav-tabs mt-4">
+<ul class="nav nav-tabs m-5">
     <li class="nav-item">
         <a class="nav-link" [class.active]="activeTab === 'cours'" (click)="activeTab = 'cours'">Cours</a>
     </li>
@@ -11,13 +11,13 @@
     </li>
 </ul>
 
-<div class="tab-content mt-4">
+<div class="tab-content m-5">
 
     <!-- Onglet Cours -->
     <div *ngIf="activeTab === 'cours'">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h3 class="mb-0">Modules</h3>
-            <button class="btn btn-outline-success" (click)="showAddForm = !showAddForm">
+            <button class="btn btn-outline-success me-3" (click)="showAddForm = !showAddForm">
               <i class="bi bi-plus-lg"></i>
             </button>
         </div>
@@ -44,10 +44,12 @@
             </div>
         </div>
 
+
+
         <div *ngFor="let module of modules" class="module-folder p-3 mb-3 shadow-sm rounded bg-white">
             <div class="d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">
-                    <i class="bi bi-folder-fill text-warning me-2"></i>{{ module.title }}
+                    <i class="bi bi-folder-fill text-warning me-2"></i>Module: {{ module.title }}
                 </h5>
                 <button class="btn btn-outline-secondary btn-sm rounded-circle" (click)="toggleModule(module)">
           <i class="bi" [ngClass]="module.isOpen ? 'bi-dash' : 'bi-plus'"></i>

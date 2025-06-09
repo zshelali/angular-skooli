@@ -16,7 +16,7 @@
 
     modules = [
       {
-        title: 'Module 1 : Introduction',
+        title: 'Introduction',
         description: 'Présentation du cours et des objectifs pédagogiques.',
         files: [
           { name: 'Intro.pdf', url: 'assets/files/intro.pdf', type: 'pdf' },
@@ -25,12 +25,13 @@
         isOpen: false
       },
       {
-        title: 'Module 2 : Qubits et logique',
+        title: 'Qubits et logique',
         description: 'Notions de superposition et de portes quantiques.',
         files: [],
         isOpen: false
       }
     ];
+    
 
     users = [
       { name: 'Alice Martin', email: 'alice@example.com', role: 'Étudiant' },
@@ -68,7 +69,7 @@
           type: file.type.includes('pdf') ? 'pdf' :
                 file.type.includes('image') ? 'image' : 'other'
         })),
-        isOpen: false
+        isOpen: false,
       });
 
       this.newModule = { title: '', description: '', files: [] };

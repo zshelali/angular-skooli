@@ -7,48 +7,59 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
+  showAddUeForm = false;
 
-  ngOnInit(): void {
-  }
+  newUe = {
+    title: '',
+    description: '',
+    image: '',
+    date_updated: new Date()
+  };
 
   courses = [
     {
       title: 'Mathématiques Avancées',
       description: 'Introduction aux bases de la logique mathématique',
-      date_updated: new Date('2025-04-03T00:00:00'),
+      date_updated: new Date('2025-04-03'),
       image: 'assets/img/it41_gpt.png'
     },
     {
       title: 'Physique Quantique',
       description: 'Les fondements de la mécanique quantique',
-      date_updated: new Date('2025-05-01T00:00:00'),
+      date_updated: new Date('2025-05-01'),
       image: 'assets/img/it44_gpt.png'
-    },
-    {
-      title: 'Informatique',
-      description: 'Structures de données et algorithmes',
-      date_updated: new Date('2025-05-15T00:00:00'),
-      image: 'assets/img/lc00_gpt.png'
-    },
-    {
-      title: 'Analyse Numérique',
-      description: 'Étude des méthodes numériques pour la résolution d’équations différentielles.',
-      date_updated: new Date('2025-05-10'),
-      image: 'assets/img/si40_gpt.png'
-    },
-    {
-      title: 'Systèmes d’Exploitation',
-      description: 'Concepts fondamentaux des OS : processus, threads, mémoire, et systèmes de fichiers.',
-      date_updated: new Date('2025-05-21'),
-      image: 'assets/img/so04_gpt.png'
-    },
-    {
-      title: 'Réseaux Informatiques',
-      description: 'Introduction aux modèles OSI, TCP/IP et aux protocoles de communication réseau.',
-      date_updated: new Date('2025-04-29'),
-      image: 'assets/img/we4a_gpt.png'
     }
   ];
 
+  constructor() {}
+
+  ngOnInit(): void {}
+
+  onImageSelected(event: any): void {
+    const file = event.target.files[0];
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.newUe.image = reader.result as string; // base64 image string
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  addCourse(): void {
+    this.courses.push({
+      title: this.newUe.title,
+      description: this.newUe.description,
+      image: this.newUe.image,
+      date_updated: new Date()
+    });
+
+    this.newUe = {
+      title: '',
+      description: '',
+      image: '',
+      date_updated: new Date()
+    };
+    this.showAddUeForm = false;
+  }
 }
