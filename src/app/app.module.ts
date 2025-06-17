@@ -11,6 +11,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { ModuleUEComponent } from './module-ue/module-ue.component';
 import { ModuleUEListComponent } from './module-ue-list/module-ue-list.component';
 import {UeComponent} from "./ue/ue.component";
+import { HttpClientModule } from '@angular/common/http';
+
 
 
 @NgModule({
@@ -27,6 +29,7 @@ import {UeComponent} from "./ue/ue.component";
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -10,15 +10,16 @@ app.use(express.json());
 app.use(cors());
 
 connectToMongoDB()
-  .then(() => {
-    app.use('/api/secret', require('./routes/protected.route'));
-    app.use('/api/auth', require('./routes/auth.route'));
+    .then(() => {
+        app.use('/api/modules', require('./routes/module.route'));
+        app.use('/api/secret', require('./routes/protected.route'));
+        app.use('/api/auth', require('./routes/auth.route'));
 
-    const PORT = process.env.PORT || 3000;
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}.🗡️`);
+        const PORT = process.env.PORT || 3000;
+        app.listen(PORT, () => {
+            console.log(`Server running on port ${PORT}.🗡️`);
+        });
+    })
+    .catch(err => {
+        console.error(`Failed to connect to MongoDB😢: ${err}`);
     });
-  })
-  .catch(err => {
-    console.error(`Failed to connect to MongoDB😢: ${err}`);
-  });

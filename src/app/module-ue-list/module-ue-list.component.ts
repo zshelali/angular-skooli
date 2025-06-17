@@ -1,5 +1,7 @@
+// src/app/module-ue-list/module-ue-list.component.ts
 import { Component, OnInit } from '@angular/core';
-import { Module} from 'src/class/Module'
+import { Module } from 'src/class/Module';
+import { ModuleService } from '../services/module.service';
 
 @Component({
   selector: 'app-module-ue-list',
@@ -8,29 +10,15 @@ import { Module} from 'src/class/Module'
 })
 export class ModuleUEListComponent implements OnInit {
 
-  ModuleArray !: Module[]
+  ModuleArray: Module[] = [];
 
-
-  constructor() { }
+  constructor(private moduleService: ModuleService) { }
 
   ngOnInit(): void {
-    this.ModuleArray =[
-      {
-        title: 'Introduction',
-        description: 'Présentation du cours et des objectifs pédagogiques.',
-        files: [
-          { name: 'Intro.pdf', url: 'assets/files/intro.pdf', type: 'pdf' },
-          { name: 'Schéma.png', url: 'assets/files/schema.png', type: 'image' }
-        ],
-        isOpen: false
-      },
-      {
-        title: 'Qubits et logique',
-        description: 'Notions de superposition et de portes quantiques.',
-        files: [],
-        isOpen: false
-      }
-    ];
+    this.moduleService.getModules().subscribe((data) => {
+      this.ModuleArray = data;
+    }, (error) => {
+      console.error('Erreur lors du chargement des modules :', error);
+    });
   }
-
 }

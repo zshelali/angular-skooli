@@ -1,4 +1,5 @@
   import { Component, OnInit } from '@angular/core';
+  import { ModuleService } from '../services/module.service';
 
   @Component({
     selector: 'app-ue',
@@ -47,7 +48,8 @@
       files: [] as File[]
     };
 
-    constructor() {}
+    constructor(private moduleService: ModuleService) {}
+
 
     ngOnInit(): void {}
 
@@ -59,20 +61,33 @@
       this.newModule.files = Array.from(event.target.files);
     }
 
-    addModule(): void {
-      this.modules.push({
-        title: this.newModule.title,
-        description: this.newModule.description,
-        files: this.newModule.files.map(file => ({
-          name: file.name,
-          url: URL.createObjectURL(file),
-          type: file.type.includes('pdf') ? 'pdf' :
-                file.type.includes('image') ? 'image' : 'other'
-        })),
-        isOpen: false,
-      });
+addModule(): void {
+  const mappedModule = {
+    title: this.newModule.title,
+    description: this.newModule.description,
+    files: this.newModule.files.map(file => ({
+      name: file.name,
+      url: 'assets/files/' + file.name,
+      type: file.type.includes('pdf') ? 'pdf' :
+            file.type.includes('image') ? 'image' : 'other'
+    })),
+    isOpen: false
+  };
 
+  console.log('Module envoyé au backend :', mappedModule);
+
+  this.moduleService.addModule(mappedModule).subscribe({
+    next: (res) => {
+      console.log('Module reçu en retour :', res);
+      this.modules.push(res);
       this.newModule = { title: '', description: '', files: [] };
       this.showAddForm = false;
+    },
+    error: (err) => {
+      console.error('Erreur ajout module :', err);
     }
+  });
+}
+
+
   }

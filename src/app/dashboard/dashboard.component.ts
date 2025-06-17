@@ -40,7 +40,7 @@ export class DashboardComponent implements OnInit {
     if (file && file.type.startsWith('image/')) {
       const reader = new FileReader();
       reader.onload = () => {
-        this.newUe.image = reader.result as string; // base64 image string
+        this.newUe.image = reader.result as string; 
       };
       reader.readAsDataURL(file);
     }
