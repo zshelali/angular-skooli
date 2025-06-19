@@ -51,7 +51,7 @@
     <div *ngIf="activeTab === 'users'">
         <ul class="list-group">
             <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let user of users">
-                <span><i class="bi bi-person-circle me-2"></i>{{ user.name }} – {{ user.email }}</span>
+                <span><i class="bi bi-person-circle me-2"></i>{{ user.firstName }} – {{ user.email }}</span>
                 <span class="badge bg-primary">{{ user.role }}</span>
             </li>
         </ul>

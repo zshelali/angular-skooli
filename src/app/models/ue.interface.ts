@@ -1,4 +1,4 @@
-export interface UE {
+export interface Ue {
     _id?: string;
     code: string;                 // e.g., "IT41"
     name: string;                 

@@ -1,5 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 
+import { UeService } from '../services/ue.service';
+import { UserService } from '../services/user.service';
+
+import { Ue } from '../models/ue.interface';
+import { User } from '../models/user.interface';
+
+
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
@@ -7,41 +14,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminComponent implements OnInit {
 
-  constructor() { }
-
-  ngOnInit(): void {
-    
-  }
   activeTab: string = 'ues';
 
   setTab(tab: 'ues' | 'users' | 'assignation'): void {
     this.activeTab = tab;
   }
 
-  users = [
-    {
-      name: 'Ali Hajeri',
-      email: 'ali.hajeri24@gmail.com',
-      role: 'Étudiant',
-      ues: [
-        { code: 'IT41', name: 'Systèmes d’exploitation' },
-        { code: 'WE4A', name: 'Projet Symfony' }
-      ]
-    },
-    {
-      name: 'Clara Dupont',
-      email: 'clara.dupont@utbm.fr',
-      role: 'Enseignant',
-      ues: [
-        { code: 'SI40', name: 'Réseaux avancés' }
-      ]
-    }
-  ];
-  
-  ues = [
-    { code: 'IT41', name: 'Systèmes d’exploitation' },
-    { code: 'SI40', name: 'Réseaux avancés' },
-    { code: 'WE4A', name: 'Projet Symfony' }
-  ];
+  ues: Ue[] = [];
+  users: User[] = [];
 
+  constructor(private ueService: UeService, private userService: UserService) { }
+
+  ngOnInit(): void {
+    this.ueService.getAll().subscribe(data => this.ues = data)
+    this.userService.getUsers().subscribe(data => this.users = data);
+    }
+  
 }

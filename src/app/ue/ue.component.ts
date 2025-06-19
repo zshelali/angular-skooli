@@ -1,6 +1,7 @@
   import { Component, OnInit } from '@angular/core';
   import { ModuleService } from '../services/module.service';
-  import { UserService, User } from '../services/user.service';
+  import { UserService } from '../services/user.service';
+  import { User } from '../models/user.interface';
 
   @Component({
     selector: 'app-ue',
