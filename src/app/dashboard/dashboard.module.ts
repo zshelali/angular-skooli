@@ -6,6 +6,8 @@ import { DashboardComponent } from './dashboard.component';
 import { UeComponent } from '../ue/ue.component';
 import { RouterModule } from '@angular/router';
 
+import { AuthGuard } from '../guards/auth.guard';
+
 
 @NgModule({
   declarations: [
@@ -16,8 +18,8 @@ import { RouterModule } from '@angular/router';
     CommonModule,
     FormsModule,
     RouterModule.forChild([
-      {path: '', component: DashboardComponent},
-      {path: 'ue', component: UeComponent},
+      {path: '', component: DashboardComponent, canActivate: [AuthGuard]},
+      {path: 'ue', component: UeComponent, canActivate: [AuthGuard]},
     ])
   ]
 })

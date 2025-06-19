@@ -2,6 +2,7 @@
 
 **In order to run the project, follow these steps:**
 - Angular (v13.3.3) + Node.js (v16.14.2) + npm (v8.5.0) installed
+- backend/.env file created (at this exact path)
 - MongoDB server running, and its URI defined in .env
 - `npm install` to install dependencies
 - `npm start` : **automatically** runs `ng serve` and `node server.js` using concurrency
@@ -9,10 +10,29 @@
 ### Tip: 
 
 .env should look like this:
-```
+```bash
 MONGO_URI=mongodb://localhost:27017/collection_name //you created it 🫵
 PORT=port //3000 or any other available port 🤷‍♂️
 JWT_SECRET=secret_password //whatever? 
+```
+
+You can create it by running this command at the **root** of the project: (UNIX)
+
+```bash
+cat > backend/.env <<EOF
+MONGO_URI=mongodb://localhost:27017/collection_name
+PORT=3000
+JWT_SECRET=your_secret_password
+EOF
+```
+Windows version: (Powershell)
+
+```powershell
+@"
+MONGO_URI=mongodb://localhost:27017/collection_name
+PORT=3000
+JWT_SECRET=your_secret_password
+"@ | Set-Content -Path "backend\.env"
 ```
 
 $-Ali$

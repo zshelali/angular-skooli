@@ -14,6 +14,8 @@ import {UeComponent} from "./ue/ue.component";
 import { HttpClientModule } from '@angular/common/http';
 
 
+import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [

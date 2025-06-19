@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { AdminComponent } from './admin.component';
 import { RouterModule } from '@angular/router';
 
+import { AdminOnlyGuard } from '../guards/admin-only.guard';
 
 
 @NgModule({
@@ -11,7 +12,7 @@ import { RouterModule } from '@angular/router';
   imports: [
     CommonModule,
     RouterModule.forChild([
-      {path: '', component: AdminComponent},
+      {path: '', component: AdminComponent, canActivate: [AdminOnlyGuard]},
     ])
   ]
 })

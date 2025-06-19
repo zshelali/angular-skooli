@@ -1,16 +1,23 @@
 <div class="container mt-5" style="max-width: 400px;">
-    <h2 class="mb-4 text-center">Sign in</h2>
-    <form>
-      <div class="form-floating mb-3">
-        <input type="email" id="email" class="form-control" placeholder="Enter your email">
-        <label for="email">Email</label>
+  <h2 class="mb-4 text-center">Sign in</h2>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">  
+    <div class="form-floating mb-3">
+      <input formControlName="email" type="email" id="email" class="form-control" placeholder="Enter your email" autofocus>
+      <label for="email">Email</label>
+      <div *ngIf="loginForm.get('email')?.invalid && (loginForm.get('email')?.touched || loginForm.get('email')?.dirty)">
+        <div *ngIf="loginForm.get('email')?.errors?.['required']" class="text-danger">Email is required.</div>
+        <div *ngIf="loginForm.get('email')?.errors?.['email']" class="text-danger">Please enter a valid email address.</div>
       </div>
-  
-      <div class="form-floating mb-3">
-        <input type="password" id="password" class="form-control" placeholder="Enter your password">
-        <label for="password">Password</label>
+    </div>
+
+    <div class="form-floating mb-3">
+      <input formControlName="password" type="password" id="password" class="form-control" placeholder="Enter your password">
+      <label for="password">Password</label>
+      <div *ngIf="loginForm.get('password')?.invalid && (loginForm.get('password')?.touched || loginForm.get('password')?.dirty)">
+        <div *ngIf="loginForm.get('password')?.errors?.['required']" class="text-danger">Password is required.</div>
       </div>
-  
-      <button type="submit" class="btn btn-primary w-100">Log In</button>
-    </form>
-  </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100">Log In</button>
+  </form>
+</div>
