@@ -1,16 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { getDB } = require('../db');
+const { getAllUsers } = require('../controllers/user.controller');
 
-router.get('/', async(req, res) => {
-    try {
-        const db = getDB();
-        const users = await db.collection('users').find().toArray();
-        res.json(users);
-    } catch (err) {
-        console.error('Erreur GET /users :', err);
-        res.status(500).json({ message: 'Erreur serveur', error: err });
-    }
-});
+router.get('/', getAllUsers);
 
 module.exports = router;
