@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+
 declare var bootstrap: any;
 
 @Component({
@@ -9,17 +10,8 @@ declare var bootstrap: any;
 })
 export class ProfileComponent implements OnInit {
 
-  constructor() { 
-  }
-
-
-  ngOnInit(): void {
-  }
-
-  ngAfterViewInit(): void {
-    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-    tooltipTriggerList.forEach(el => new bootstrap.Tooltip(el));
-  }
+  isEditing = false;
+  newEmail = '';
 
   user = {
     name: 'Ali',
@@ -30,4 +22,30 @@ export class ProfileComponent implements OnInit {
     profile_picture: 'assets/img/it41_gpt.png'
   }
 
+  constructor() {}
+
+  ngOnInit(): void {}
+
+  ngAfterViewInit(): void {
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    tooltipTriggerList.forEach(el => new bootstrap.Tooltip(el));
+  }
+
+  enableEdit() {
+    this.isEditing = true;
+    this.newEmail = ''; // Champ vide à l’ouverture
+  }
+
+  cancelEdit() {
+    this.isEditing = false;
+    this.newEmail = '';
+  }
+
+  saveChanges() {
+    if (this.newEmail.trim()) {
+      this.user.email = this.newEmail.trim();
+    }
+    this.isEditing = false;
+    this.newEmail = '';
+  }
 }

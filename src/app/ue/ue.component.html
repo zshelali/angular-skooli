@@ -1,41 +1,60 @@
-<div class="UE_name mt-3">
-  <h1>{{ ue.code }} : {{ ue.name }}</h1>
+<div class="UE_name m-4">
+    <h1>{{ ue.code }} : {{ ue.name }}</h1>
 </div>
 
-<ul class="nav nav-tabs mt-4">
-  <li class="nav-item">
-    <a class="nav-link" [class.active]="activeTab === 'posts'" (click)="activeTab = 'posts'">Posts</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" [class.active]="activeTab === 'users'" (click)="activeTab = 'users'">Users</a>
-  </li>
+<ul class="nav nav-tabs m-5">
+    <li class="nav-item">
+        <a class="nav-link" [class.active]="activeTab === 'cours'" (click)="activeTab = 'cours'">Cours</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" [class.active]="activeTab === 'users'" (click)="activeTab = 'users'">Utilisateurs</a>
+    </li>
 </ul>
 
-<div class="tab-content mt-3">
+<div class="tab-content m-5">
 
-  <!-- Posts Tab -->
-  <div class="tab-pane fade show active" *ngIf="activeTab === 'posts'">
-    <div class="card mb-3" *ngFor="let post of posts">
-      <div class="card-header">
-        {{ post.author }} – {{ post.date | date: 'dd.MM.yyyy HH:mm' }}
-      </div>
-      <div class="card-body">
-        <h5 class="card-title">{{ post.title }}</h5>
-        <p class="card-text">{{ post.content }}</p>
-      </div>
+    <!-- Onglet Cours -->
+    <div *ngIf="activeTab === 'cours'">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3 class="mb-0">Modules</h3>
+            <button class="btn btn-outline-success me-3" (click)="showAddForm = !showAddForm">
+              <i class="bi bi-plus-lg"></i>
+            </button>
+        </div>
+
+        <div *ngIf="showAddForm" class="card p-3 mb-4">
+            <div class="mb-3">
+                <label for="moduleTitle" class="form-label">Titre</label>
+                <input id="moduleTitle" class="form-control" [(ngModel)]="newModule.title" name="title" />
+            </div>
+
+            <div class="mb-3">
+                <label for="moduleDescription" class="form-label">Description</label>
+                <textarea id="moduleDescription" class="form-control" rows="3" [(ngModel)]="newModule.description" name="description"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Pièces jointes</label>
+                <input type="file" class="form-control" (change)="onFileSelected($event)" multiple />
+            </div>
+
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-secondary me-2" (click)="showAddForm = false">Annuler</button>
+                <button class="btn btn-primary" (click)="addModule()">Ajouter</button>
+            </div>
+        </div>
+
+    <app-module-ue-list></app-module-ue-list>
     </div>
-  </div>
 
-  <!-- Users Tab -->
-  <div class="tab-pane fade show active" *ngIf="activeTab === 'users'">
-    <ul class="list-group">
-      <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let user of users">
-        <span>
-          {{ user.name }} – {{ user.email }}
-        </span>
-        <span class="badge bg-primary">{{ user.role }}</span>
-      </li>
-    </ul>
-  </div>
+    <!-- Onglet Utilisateurs -->
+    <div *ngIf="activeTab === 'users'">
+        <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let user of users">
+                <span><i class="bi bi-person-circle me-2"></i>{{ user.name }} – {{ user.email }}</span>
+                <span class="badge bg-primary">{{ user.role }}</span>
+            </li>
+        </ul>
+    </div>
 
 </div>
