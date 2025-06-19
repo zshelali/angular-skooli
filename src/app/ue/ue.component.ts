@@ -1,5 +1,6 @@
   import { Component, OnInit } from '@angular/core';
   import { ModuleService } from '../services/module.service';
+  import { UserService, User } from '../services/user.service';
 
   @Component({
     selector: 'app-ue',
@@ -34,11 +35,7 @@
     ];
     
 
-    users = [
-      { name: 'Alice Martin', email: 'alice@example.com', role: 'Étudiant' },
-      { name: 'Jean Dupont', email: 'jean@example.com', role: 'Enseignant' },
-      { name: 'Claire Dubois', email: 'claire@example.com', role: 'Étudiant' }
-    ];
+    users: User[] = [];
 
     showAddForm = false;
 
@@ -48,10 +45,22 @@
       files: [] as File[]
     };
 
-    constructor(private moduleService: ModuleService) {}
+    constructor(private moduleService: ModuleService,
+        private userService: UserService
+    ) {}
 
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+  this.loadUsers();
+}
+
+loadUsers(): void {
+  this.userService.getUsers().subscribe({
+    next: (data) => this.users = data,
+    error: (err) => console.error('Erreur chargement utilisateurs :', err)
+  });
+}
+
 
     toggleModule(module: any): void {
       module.isOpen = !module.isOpen;
