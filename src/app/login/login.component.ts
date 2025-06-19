@@ -28,8 +28,14 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe({
         next: (response) => {
+          const user = response.user;
+
+          if (user.role === 'admin' || user.role === 'profadmin'){
+            this.router.navigate(['/admin']);
+          } else {
+            this.router.navigate(['/dashboard']);
+          }
           console.log('Login successful', response);
-          this.router.navigate(['/dashboard']);
           this.errorMsg = '';
         },
         error: (error) => {
