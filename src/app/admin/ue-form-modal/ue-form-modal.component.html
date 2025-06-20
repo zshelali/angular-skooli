@@ -1,1 +1,40 @@
-<p>ue-form-modal works!</p>
+<div class="modal fade show d-block" tabindex="-1" role="dialog" *ngIf="visible">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">{{ ueToEdit ? 'Edit UE' : 'Create UE' }}</h5>
+        <button type="button" class="btn-close" (click)="close()"></button>
+      </div>
+
+      <div class="modal-body">
+        <form [formGroup]="ueForm" (ngSubmit)="submit()">
+          <div class="mb-3">
+            <label class="form-label">Code</label>
+            <input class="form-control" formControlName="code">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input class="form-control" formControlName="name">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea class="form-control" formControlName="description"></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Credits</label>
+            <input type="number" class="form-control" formControlName="credits">
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="close()">Cancel</button>
+        <button type="submit" class="btn btn-primary" (click)="submit()">
+          {{ ueToEdit ? 'Update' : 'Create' }}
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>

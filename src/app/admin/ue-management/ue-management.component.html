@@ -30,5 +30,12 @@
     </div>
   </div>
 
+  <app-ue-form-modal
+  [visible]="showFormModal"
+  [ueToEdit]="editingUe"
+  (formSubmitted)="handleFormSubmit($event)"
+  (modalClosed)="showFormModal = false">
+</app-ue-form-modal>
+
 
   

@@ -28,4 +28,30 @@ export class UeManagementComponent implements OnInit {
     this.ueService.getAll().subscribe(data => this.ues = data)
   }
 
+  showFormModal = false;
+editingUe: Ue | null = null;
+
+openCreateForm() {
+  this.editingUe = null;
+  this.showFormModal = true;
+}
+
+openEditForm(ue: Ue) {
+  this.editingUe = ue;
+  this.showFormModal = true;
+}
+
+handleFormSubmit(ue: Ue) {
+  if (ue._id) {
+    this.ueService.update(ue._id, ue).subscribe(updated => {
+      this.ues = this.ues.map(u => u._id === updated._id ? updated : u);
+    });
+  } else {
+    this.ueService.add(ue).subscribe(newUe => {
+      this.ues.unshift(newUe);
+    });
+  }
+  this.showFormModal = false;
+}
+
 }

@@ -9,11 +9,14 @@ import { UserManagementComponent } from './user-management/user-management.compo
 import { UeManagementComponent } from './ue-management/ue-management.component';
 import { UeFormModalComponent } from './ue-form-modal/ue-form-modal.component';
 
+import { ReactiveFormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [AdminComponent, UserManagementComponent, UeManagementComponent, UeFormModalComponent],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     RouterModule.forChild([
       {path: '', component: AdminComponent, canActivate: [AdminOnlyGuard]},
     ])
