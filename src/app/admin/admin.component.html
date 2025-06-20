@@ -34,7 +34,7 @@
       <div class="card-body">
         <ul class="list-group">
           <li class="list-group-item" *ngFor="let user of users">
-            {{ user.firstName }} ({{ user.email }}) – Rôle : {{ user.role }}
+            {{ user.firstName }} {{ user.lastName }} ({{ user.email }}) – Rôle : {{ user.role }}
           </li>
         </ul>
       </div>
