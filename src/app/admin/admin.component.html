@@ -39,7 +39,7 @@
               <td>{{ ue.credits }}</td>
               <td><button class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil-square"></i></button></td>
               <td class="text-end">
-                <button class="btn btn-sm btn-outline-primary"><i class="bi bi-trash3-fill"></i></button>
+                <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash3-fill"></i></button>
               </td>
             </tr>
           </tbody>
@@ -50,17 +50,44 @@
 </div>
 
   <div *ngIf="activeTab === 'users'" class="tab-pane fade show active">
-    <div class="card">
-      <div class="card-header bg-secondary text-white">List of Users</div>
-      <div class="card-body">
-        <ul class="list-group">
-          <li class="list-group-item" *ngFor="let user of users">
-            {{ user.firstName }} {{ user.lastName }} ({{ user.email }}) – Rôle : {{ user.role }}
-          </li>
-        </ul>
+  <div class="card">
+    <div class="card-header bg-secondary text-white">List of Users</div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-striped mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th></th>
+              <th class="text-end"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of users">
+              <td>{{ user.firstName }}</td>
+              <td>{{ user.lastName }}</td>
+              <td>{{ user.email }}</td>
+              <td>{{ user.role }}</td>
+              <td>
+                <button class="btn btn-sm btn-outline-primary">
+                  <i class="bi bi-pencil-square"></i>
+                </button>
+              </td>
+              <td class="text-end">
+                <button class="btn btn-sm btn-outline-danger">
+                  <i class="bi bi-trash3-fill"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
+</div>
 <!-- 
   <div *ngIf="activeTab === 'assignation'" class="tab-pane fade show active">
     <div class="card">
