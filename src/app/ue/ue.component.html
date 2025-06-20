@@ -9,6 +9,10 @@
     <li class="nav-item">
         <a class="nav-link" [class.active]="activeTab === 'users'" (click)="activeTab = 'users'">Utilisateurs</a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" [class.active]="activeTab === 'forum'" (click)="activeTab = 'forum'">Forum</a>
+    </li>
+
 </ul>
 
 <div class="tab-content m-5">
@@ -44,7 +48,7 @@
             </div>
         </div>
 
-    <app-module-ue-list></app-module-ue-list>
+        <app-module-ue-list></app-module-ue-list>
     </div>
 
     <!-- Onglet Utilisateurs -->
@@ -55,6 +59,11 @@
                 <span class="badge bg-primary">{{ user.role }}</span>
             </li>
         </ul>
+    </div>
+
+    <!-- Onglet Forum -->
+    <div *ngIf="activeTab === 'forum'">
+        <app-forum></app-forum>
     </div>
 
 </div>
