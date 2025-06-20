@@ -19,7 +19,7 @@
               <td>{{ ue.name }}</td>
               <td>{{ ue.description }}</td>
               <td>{{ ue.credits }}</td>
-              <td><button class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil-square"></i></button></td>
+              <td><button (click)="openEditForm(ue)" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil-square"></i></button></td>
               <td class="text-end">
                 <button (click)="deleteUe(ue._id!)" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash3-fill"></i></button>
               </td>
