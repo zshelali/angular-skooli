@@ -1,10 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-import { UeService } from '../services/ue.service';
-import { UserService } from '../services/user.service';
-
-import { Ue } from '../models/ue.interface';
-import { User } from '../models/user.interface';
 
 
 @Component({
@@ -20,14 +15,10 @@ export class AdminComponent implements OnInit {
     this.activeTab = tab;
   }
 
-  ues: Ue[] = [];
-  users: User[] = [];
-
-  constructor(private ueService: UeService, private userService: UserService) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.ueService.getAll().subscribe(data => this.ues = data)
-    this.userService.getUsers().subscribe(data => this.users = data);
+    
     }
   
 }

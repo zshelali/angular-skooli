@@ -5,10 +5,12 @@ import { AdminComponent } from './admin.component';
 import { RouterModule } from '@angular/router';
 
 import { AdminOnlyGuard } from '../guards/admin-only.guard';
+import { UserManagementComponent } from './user-management/user-management.component';
+import { UeManagementComponent } from './ue-management/ue-management.component';
 
 
 @NgModule({
-  declarations: [AdminComponent],
+  declarations: [AdminComponent, UserManagementComponent, UeManagementComponent],
   imports: [
     CommonModule,
     RouterModule.forChild([

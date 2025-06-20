@@ -1,0 +1,31 @@
+<div class="card">
+    <div class="card-header bg-primary text-white">List of UEs</div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-striped mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>UE Code</th>
+              <th>UE Name</th>
+              <th>Description</th>
+              <th>Credits</th>
+              <th></th>
+              <th class="text-end"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let ue of ues">
+              <td>{{ ue.code }}</td>
+              <td>{{ ue.name }}</td>
+              <td>{{ ue.description }}</td>
+              <td>{{ ue.credits }}</td>
+              <td><button class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil-square"></i></button></td>
+              <td class="text-end">
+                <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash3-fill"></i></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
