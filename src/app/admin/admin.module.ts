@@ -7,10 +7,11 @@ import { RouterModule } from '@angular/router';
 import { AdminOnlyGuard } from '../guards/admin-only.guard';
 import { UserManagementComponent } from './user-management/user-management.component';
 import { UeManagementComponent } from './ue-management/ue-management.component';
+import { UeFormModalComponent } from './ue-form-modal/ue-form-modal.component';
 
 
 @NgModule({
-  declarations: [AdminComponent, UserManagementComponent, UeManagementComponent],
+  declarations: [AdminComponent, UserManagementComponent, UeManagementComponent, UeFormModalComponent],
   imports: [
     CommonModule,
     RouterModule.forChild([

@@ -14,6 +14,16 @@ export class UeManagementComponent implements OnInit {
 
   constructor(private ueService: UeService) { }
 
+  deleteUe(id: string) {
+    if (confirm('Are you sure you want to delete this UE?')) {
+      this.ueService.delete(id).subscribe(() => {
+        this.ues = this.ues.filter(ue => ue._id !== id);
+        console.log(`UE deleted successfully.`);
+      });
+    }
+  }
+  
+
   ngOnInit(): void {
     this.ueService.getAll().subscribe(data => this.ues = data)
   }
