@@ -1,0 +1,18 @@
+<div class="card p-3">
+    <h4>Soumettre un devoir</h4>
+    <form (ngSubmit)="submitDevoir()" #devoirForm="ngForm">
+        <div class="mb-3">
+            <label for="titre" class="form-label">Titre</label>
+            <input type="text" id="titre" class="form-control" [(ngModel)]="devoir.titre" name="titre" required />
+        </div>
+
+        <div class="mb-3">
+            <label for="fichier" class="form-label">Fichier</label>
+            <input type="file" id="fichier" class="form-control" (change)="onFileSelected($event)" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary" [disabled]="!devoirForm.form.valid || !selectedFile">
+      Envoyer
+    </button>
+    </form>
+</div>

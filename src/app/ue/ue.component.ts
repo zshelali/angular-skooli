@@ -10,7 +10,7 @@ import { ForumService } from '../services/forum.service';
 })
 export class UeComponent implements OnInit {
 
-  activeTab: 'cours' | 'users' | 'forum' = 'cours';
+  activeTab: 'cours' | 'users' | 'forum' | 'devoirs' = 'cours';
 
   // Tu pourras plus tard peupler ce champ dynamiquement depuis une route /api/ues/:id
   ue = {

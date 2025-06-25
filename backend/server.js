@@ -16,7 +16,7 @@ connectToMongoDB()
         app.use("/api/auth", require("./routes/auth.route"));
         app.use("/api/users", require("./routes/user.route"));
         app.use('/api/forums', require('./routes/forum.route'));
-
+        app.use('/api/devoirs', require('./routes/devoir.route'));
 
         const PORT = process.env.PORT || 3000;
         app.listen(PORT, () => {
