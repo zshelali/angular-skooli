@@ -27,7 +27,7 @@ interface Forum {
 })
 export class ForumComponent implements OnInit {
 
-  currentUser = { name: 'Jean Dupont', email: 'jean@example.com' };
+  currentUser = { name: 'Jean Dupont', email: 'jean@example.com', role: 'etudiant' };
   forums: Forum[] = [];
   showAddForm = false;
   newTitle = '';
@@ -37,6 +37,10 @@ export class ForumComponent implements OnInit {
   ngOnInit(): void {
     this.loadForums();
   }
+
+  canCreateForum(): boolean {
+  return this.currentUser.role === 'prof';
+}
 
   loadForums(): void {
   this.forumService.getForums().subscribe({
