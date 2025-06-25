@@ -32,28 +32,20 @@ exports.createForum = async(req, res) => {
 
 
 exports.addMessageToForum = async(req, res) => {
-    try {
-        const db = getDB();
-        const { id, topicIndex } = req.params;
-        const message = {
-            text: req.body.text,
-            author: req.body.author,
-            createdAt: new Date()
-        };
+    const db = getDB();
+    const forumId = req.params.id;
 
-        const result = await db.collection('forums').updateOne({ _id: new ObjectId(id) }, {
-            $push: {
-                [`topics.${topicIndex}.messages`]: message
-            }
-        });
+    const message = {
+        text: req.body.text,
+        author: req.body.author,
+        createdAt: new Date()
+    };
 
-        if (result.modifiedCount === 1) {
-            res.json({ message: 'Message ajouté' });
-        } else {
-            res.status(404).json({ message: 'Forum non trouvé' });
-        }
-    } catch (err) {
-        console.error('Erreur ajout message :', err);
-        res.status(500).json({ message: 'Erreur ajout message', error: err });
+    const result = await db.collection('forums').updateOne({ _id: new ObjectId(forumId) }, { $push: { messages: message } });
+
+    if (result.modifiedCount === 1) {
+        res.json({ message: 'Message ajouté avec succès' });
+    } else {
+        res.status(404).json({ message: 'Forum non trouvé' });
     }
 };

@@ -45,7 +45,9 @@ export class ForumService {
     return this.http.post<Forum>(this.apiUrl, forum);
   }
 
-  addMessage(forumId: string, topicIndex: number, message: Message): Observable<Topic> {
-    return this.http.post<Topic>(`${this.apiUrl}/${forumId}/topics/${topicIndex}/messages`, message);
-  }
+  addMessage(forumId: string, message: Message): Observable<any> {
+  return this.http.post(`${this.apiUrl}/${forumId}/messages`, message);
+}
+
+
 }

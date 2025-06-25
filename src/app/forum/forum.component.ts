@@ -39,21 +39,20 @@ export class ForumComponent implements OnInit {
   }
 
   loadForums(): void {
-    this.forumService.getForums().subscribe({
-      next: data => {
-        this.forums = data.map(f => ({
+  this.forumService.getForums().subscribe({
+    next: data => {
+      this.forums = data
+        .filter(f => true)
+        .map(f => ({
           ...f,
-          // corrige au cas où le backend renvoie creator en string
-          creator: typeof f.creator === 'string'
-            ? { name: f.creator, email: '' }
-            : f.creator,
           showMessages: false,
           newMessage: ''
         }));
-      },
-      error: err => console.error('Erreur chargement forums :', err)
-    });
-  }
+    },
+    error: err => console.error('Erreur chargement forums :', err)
+  });
+}
+
 
   createForum(): void {
     if (!this.newTitle.trim()) {
@@ -93,20 +92,27 @@ export class ForumComponent implements OnInit {
   }
 
   sendMessage(forum: Forum): void {
-    if (forum.newMessage?.trim()) {
-      const message: Message = {
-        author: this.currentUser,
-        text: forum.newMessage,
-        createdAt: new Date().toISOString()
-      };
-
-      this.forumService.addMessage(forum._id!, 0, message).subscribe({
-        next: () => {
-          forum.messages.push(message);
-          forum.newMessage = '';
-        },
-        error: err => console.error('Erreur envoi message :', err)
-      });
-    }
+  if (!forum._id) {
+    console.warn('❌ ID forum manquant');
+    return;
   }
+
+  if (forum.newMessage?.trim()) {
+    const message: Message = {
+      author: this.currentUser,
+      text: forum.newMessage,
+      createdAt: new Date().toISOString()
+    };
+
+    this.forumService.addMessage(forum._id, message).subscribe({
+      next: () => {
+        forum.messages.push(message);
+        forum.newMessage = '';
+      },
+      error: err => console.error('❌ Erreur envoi message :', err)
+    });
+  }
+}
+
+
 }

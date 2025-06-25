@@ -4,6 +4,7 @@ const controller = require('../controllers/forum.controller');
 
 router.get('/', controller.getForums);
 router.post('/', controller.createForum);
-router.post('/:id/topics/:topicIndex/messages', controller.addMessageToForum);
+router.post('/:id/messages', controller.addMessageToForum);
+
 
 module.exports = router;

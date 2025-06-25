@@ -32,7 +32,7 @@
         <!-- Messages du forum -->
         <div *ngIf="forum.showMessages" class="mt-3 ps-3">
             <div *ngFor="let msg of forum.messages" class="mb-2">
-                <strong>{{ msg.author }}:</strong> {{ msg.text }}
+                <strong>{{ msg.author.name }} :</strong> {{ msg.text }}
             </div>
             <div class="input-group mt-2">
                 <input type="text" class="form-control" [(ngModel)]="forum.newMessage" placeholder="Votre message" />
