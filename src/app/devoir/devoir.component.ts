@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-devoir',
@@ -14,15 +15,16 @@ export class DevoirComponent implements OnInit {
 
   selectedFile: File | null = null;
   devoirsSoumis: any[] = [];
-  user: any = { role: 'Enseignant' }; // à remplacer par le vrai utilisateur connecté
+  user: any ;
 
   // Champs temporaires pour noter
   tempNotes: { [key: string]: number } = {};
   tempCommentaires: { [key: string]: string } = {};
 
-  constructor(private http: HttpClient) {}
+  constructor(private authService: AuthService, private http: HttpClient) {}
 
   ngOnInit(): void {
+    this.user = this.authService.getCurrentUser();
     this.loadDevoirs();
   }
 

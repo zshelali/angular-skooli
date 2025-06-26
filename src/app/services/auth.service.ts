@@ -19,6 +19,16 @@ export class AuthService {
     );
   }
 
+  getCurrentUser() {
+  const user = localStorage.getItem('user');
+  return user ? JSON.parse(user) : null;
+  }
+
+  getUserRole(): string {
+  const user = this.getCurrentUser();
+  return user?.role || '';
+  }
+
   logout(): void {
     localStorage.removeItem('token');
   }
