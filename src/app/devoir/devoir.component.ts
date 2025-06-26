@@ -62,7 +62,7 @@ export class DevoirComponent implements OnInit {
       error: err => console.error('❌ Erreur chargement devoirs', err)
     });
   }
-
+  
   corrigerDevoir(devoir: any): void {
     const correction = {
       note: this.tempNotes[devoir._id],

@@ -1,4 +1,5 @@
-<div class="card p-3">
+<!-- Partie ÉTUDIANT -->
+<div class="card p-3" *ngIf="user.role === 'admin'">
     <h4>Soumettre un devoir</h4>
     <form (ngSubmit)="submitDevoir()" #devoirForm="ngForm">
         <div class="mb-3">
@@ -16,7 +17,9 @@
     </button>
     </form>
 </div>
-<div class="mt-5">
+
+<!-- Partie ENSEIGNANT -->
+<div class="mt-5" *ngIf="user.role === 'admin'">
     <h4>📋 Devoirs à corriger</h4>
     <div *ngFor="let d of devoirsSoumis" class="card mb-3 p-3">
         <p><strong>Titre :</strong> {{ d.titre }}</p>
