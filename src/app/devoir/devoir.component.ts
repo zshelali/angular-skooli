@@ -16,6 +16,10 @@ export class DevoirComponent implements OnInit {
   devoirsSoumis: any[] = [];
   user: any = { role: 'Enseignant' }; // à remplacer par le vrai utilisateur connecté
 
+  // Champs temporaires pour noter
+  tempNotes: { [key: string]: number } = {};
+  tempCommentaires: { [key: string]: string } = {};
+
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
@@ -47,15 +51,22 @@ export class DevoirComponent implements OnInit {
 
   loadDevoirs(): void {
     this.http.get<any[]>('http://localhost:3000/api/devoirs').subscribe({
-      next: data => this.devoirsSoumis = data,
+      next: data => {
+        this.devoirsSoumis = data;
+        // Initialiser les champs de correction temporaires
+        data.forEach(d => {
+          this.tempNotes[d._id] = d.note || 0;
+          this.tempCommentaires[d._id] = d.commentaire || '';
+        });
+      },
       error: err => console.error('❌ Erreur chargement devoirs', err)
     });
   }
 
   corrigerDevoir(devoir: any): void {
     const correction = {
-      note: devoir.note,
-      commentaire: devoir.commentaire
+      note: this.tempNotes[devoir._id],
+      commentaire: this.tempCommentaires[devoir._id]
     };
 
     this.http.patch(`http://localhost:3000/api/devoirs/${devoir._id}`, correction).subscribe({
