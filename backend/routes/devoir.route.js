@@ -1,14 +1,26 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const devoirController = require("../controllers/devoir.controller");
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
 
-// Étudiant : soumettre un devoir
-router.post("/", devoirController.submitDevoir);
+const devoirController = require('../controllers/devoir.controller');
 
-// Enseignant : récupérer tous les devoirs d'une UE
-router.get("/:ueCode", devoirController.getDevoirsByUe);
+// 📁 Config de multer pour stocker les fichiers
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        const uploadPath = path.join(__dirname, '..', 'uploads', 'devoirs');
+        fs.mkdirSync(uploadPath, { recursive: true }); // crée dossier si non existant
+        cb(null, uploadPath);
+    },
+    filename: (req, file, cb) => {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        cb(null, uniqueSuffix + '-' + file.originalname);
+    }
+});
+const upload = multer({ storage });
 
-// Enseignant : noter un devoir
-router.patch("/:id", devoirController.gradeDevoir);
+router.post('/', upload.single('file'), devoirController.submitDevoir);
+
 
 module.exports = router;
