@@ -16,3 +16,28 @@
     </button>
     </form>
 </div>
+<div class="mt-5">
+    <h4>📋 Devoirs à corriger</h4>
+    <div *ngFor="let d of devoirsSoumis" class="card mb-3 p-3">
+        <p><strong>Titre :</strong> {{ d.titre }}</p>
+        <p><strong>Étudiant :</strong> {{ d.etudiant.name }} ({{ d.etudiant.email }})</p>
+        <p><strong>Date de soumission :</strong> {{ d.dateSoumission | date:'short' }}</p>
+        <p><strong>Fichier :</strong> <a [href]="'http://localhost:3000' + d.path" download>{{ d.nomFichier }}</a></p>
+
+        <div *ngIf="!d.note">
+            <div class="mb-2">
+                <label>Note</label>
+                <input type="number" class="form-control" [(ngModel)]="d.note" min="0" max="20">
+            </div>
+            <div class="mb-2">
+                <label>Commentaire</label>
+                <textarea class="form-control" [(ngModel)]="d.commentaire"></textarea>
+            </div>
+            <button class="btn btn-success" (click)="corrigerDevoir(d)">Corriger</button>
+        </div>
+
+        <div *ngIf="d.note">
+            <p><strong>✅ Corrigé</strong> – Note : {{ d.note }} – Commentaire : {{ d.commentaire }}</p>
+        </div>
+    </div>
+</div>
