@@ -18,6 +18,7 @@ connectToMongoDB()
         app.use("/api/users", require("./routes/user.route"));
         app.use('/api/forums', require('./routes/forum.route'));
         app.use('/api/devoirs', require('./routes/devoir.route'));
+        app.use('/api/dashboard', require('./routes/dashboard.route'));
         app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
         const PORT = process.env.PORT || 3000;

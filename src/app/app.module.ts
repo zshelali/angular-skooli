@@ -16,6 +16,7 @@ import { ForumComponent } from './forum/forum.component';
 import { DevoirComponent } from './devoir/devoir.component';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,6 +28,7 @@ import { DevoirComponent } from './devoir/devoir.component';
     UeComponent,
     ForumComponent,
     DevoirComponent
+
   ],
   imports: [
     BrowserModule,
