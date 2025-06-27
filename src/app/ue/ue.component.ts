@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ModuleService } from '../services/module.service';
 import { UserService, User } from '../services/user.service';
 import { ForumService } from '../services/forum.service';
+import {UeService} from "../services/ue.service";
+import {ActivatedRoute} from "@angular/router";
+import {UE} from "../models/ue.interface";
+
 
 @Component({
   selector: 'app-ue',
@@ -11,15 +15,15 @@ import { ForumService } from '../services/forum.service';
 export class UeComponent implements OnInit {
 
   activeTab: 'cours' | 'users' | 'forum' | 'devoirs' = 'cours';
-
   // Tu pourras plus tard peupler ce champ dynamiquement depuis une route /api/ues/:id
-  ue = {
+  ue: UE = {
     code: 'IT41',
     name: 'Quantum Computing Basics'
   };
 
   users: User[] = [];
   modules: any[] = [];
+
 
   showAddForm = false;
 
@@ -31,12 +35,23 @@ export class UeComponent implements OnInit {
 
   constructor(
     private moduleService: ModuleService,
-    private userService: UserService
+    private userService: UserService,
+    private ueService: UeService,
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
+    this.loadUe()
     this.loadUsers();
     this.loadModules();
+  }
+
+  loadUe(): void {
+    const ueId = this.route.snapshot.paramMap.get('id');
+    this.ueService.getCurrent(ueId).subscribe({
+      next: (data) => this.ue = data,
+    })
+    console.log(this.ue.code)
   }
 
   loadUsers(): void {
@@ -88,5 +103,5 @@ export class UeComponent implements OnInit {
       }
     });
   }
-  
+
 }

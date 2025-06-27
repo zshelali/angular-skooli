@@ -1,15 +1,13 @@
-<div class="col">
-  <a routerLink="/dashboard/ue">
+<div class="">
+  <a routerLink="/ue/{{ue.code}}">
     <div class="card h-100">
-      <img class="card-img-top" alt="course image" />
+      <img class="card-img-top  " [src]="ue.illustration" alt="course image" />
       <div class="card-body">
-        <h5 class="card-title">titre</h5>
-        <p class="card-text">description</p>
+        <h5 class="card-title">{{ ue.code }}</h5>
+        <p class="card-text">{{ ue.name }}</p>
       </div>
       <div class="card-footer">
-        <small class="text-muted">Last updated
-          </small
-        >
+        <small class="text-muted">{{ ue.updatedAt | date : "dd.MM.yyyy hh:mm" }}</small>
       </div>
     </div>
   </a>

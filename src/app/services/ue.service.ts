@@ -1,27 +1,27 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import {UE} from "../models/ue.interface";
 
-export interface Ue {
-  title: string;
-  description: string;
-  image: string;
-  date_updated: Date;
-}
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class UeService {
-  private apiUrl = 'http://localhost:3000/api/ues';
+  private apiUrl = 'http://localhost:3000/api/ue';
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<Ue[]> {
-    return this.http.get<Ue[]>(this.apiUrl);
+  getAll(): Observable<UE[]> {
+    return this.http.get<UE[]>(this.apiUrl);
   }
 
-  add(ue: Ue): Observable<Ue> {
-    return this.http.post<Ue>(this.apiUrl, ue);
+  add(ue: UE): Observable<UE> {
+    return this.http.post<UE>(this.apiUrl, ue);
+  }
+
+  getCurrent(codeUE: any): Observable<UE> {
+    return this.http.get<UE>(`${this.apiUrl}/${codeUE}`);
   }
 }

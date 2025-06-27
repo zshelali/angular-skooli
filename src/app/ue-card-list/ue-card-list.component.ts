@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UE } from 'src/app/models/ue.interface'
 import{ DashboardService} from "../services/dashboard.service";
+import { AuthService } from "../services/auth.service";
 
 @Component({
   selector: 'app-ue-card-list',
@@ -11,14 +12,11 @@ export class UeCardListComponent implements OnInit {
 
   UeCardArray: UE[] = [];
 
-  constructor(private dashboardService: DashboardService) { }
+  constructor(private dashboardService: DashboardService, private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.dashboardService.getUserUe().subscribe((data) => {
-      this.UeCardArray = data;
-    }, (error) => {
-      console.error('Erreur lors du chargement des UEs de l\'utilisateur', error);
-    })
+    const userInfo = this.authService.getCurrentUser();
+    this.dashboardService.getUserUe(userInfo.email).subscribe(data => this.UeCardArray = data);
   }
 
 }

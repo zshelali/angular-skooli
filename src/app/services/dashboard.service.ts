@@ -13,8 +13,8 @@ export class DashboardService {
   private apiUrl = 'http://localhost:3000/api/dashboard';
   constructor(private http: HttpClient) { }
 
-  getUserUe(): Observable<UE[]> {
-    return this.http.get<UE[]>(this.apiUrl);
+  getUserUe(email: string): Observable<UE[]> {
+    return this.http.get<UE[]>(`${this.apiUrl}/${email}`);
   }
 
 
