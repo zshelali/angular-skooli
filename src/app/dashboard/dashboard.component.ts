@@ -33,14 +33,15 @@ export class DashboardComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   onImageSelected(event: any): void {
     const file = event.target.files[0];
     if (file && file.type.startsWith('image/')) {
       const reader = new FileReader();
       reader.onload = () => {
-        this.newUe.image = reader.result as string; 
+        this.newUe.image = reader.result as string;
       };
       reader.readAsDataURL(file);
     }

@@ -21,7 +21,7 @@
         <div class="mb-3">
             <label for="ueImage" class="form-label">Image</label>
             <input type="file" class="form-control" (change)="onImageSelected($event)" />
-            <img *ngIf="newUe.image" [src]="newUe.image" class="img-thumbnail mt-2" style="max-height: 150px;" />
+            <img alt="image_UE" *ngIf="newUe.image" [src]="newUe.image" class="img-thumbnail mt-2" style="max-height: 150px" />
         </div>
 
         <div class="d-flex justify-content-end">
@@ -29,23 +29,8 @@
             <button class="btn btn-primary" (click)="addCourse()">Ajouter</button>
         </div>
     </div>
-
-    <div class="row row-cols-1 row-cols-md-3 g-4 mt-4">
-        <div class="col" *ngFor="let course of courses">
-            <a routerLink="/dashboard/ue">
-                <div class="card h-100">
-                    <img [src]="course.image" class="card-img-top" alt="course image" />
-                    <div class="card-body">
-                        <h5 class="card-title">{{ course.title }}</h5>
-                        <p class="card-text">{{ course.description }}</p>
-                    </div>
-                    <div class="card-footer">
-                        <small class="text-muted">Last updated
-              {{ course.date_updated | date : "dd.MM.yyyy hh:mm" }}</small
-            >
-          </div>
-        </div>
-      </a>
+    <div class="container mt-5">
+      <app-ue-card-list></app-ue-card-list>
     </div>
-  </div>
+
 </div>

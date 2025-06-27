@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-
+import { UserService} from "../services/user.service";
+import { AuthService } from "../services/auth.service";
+import { User } from "../models/user.interface";
 
 declare var bootstrap: any;
 
@@ -13,18 +15,23 @@ export class ProfileComponent implements OnInit {
   isEditing = false;
   newEmail = '';
 
-  user = {
-    name: 'Ali',
-    lastname: 'Hajeri',
+  user: User = {
+    firstName: 'Ali',
+    lastName: 'Hajeri',
     email: 'ali.hajeri@utbm.fr',
-    role: 'Student',
-    inscription_date: '2025-05-30',
-    profile_picture: 'assets/img/it41_gpt.png'
+    role: "student",
+    profilePicture: 'assets/img/it41_gpt.png'
   }
 
-  constructor() {}
+  constructor(
+    private authService: AuthService,
+    private userService: UserService
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const userInfo = this.authService.getCurrentUser();
+    this.userService.getSpecificUser(userInfo.email).subscribe((data: User) => this.user = data);
+  }
 
   ngAfterViewInit(): void {
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
