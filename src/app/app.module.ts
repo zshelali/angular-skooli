@@ -11,9 +11,11 @@ import { ProfileComponent } from './profile/profile.component';
 import { ModuleUEComponent } from './module-ue/module-ue.component';
 import { ModuleUEListComponent } from './module-ue-list/module-ue-list.component';
 import {UeComponent} from "./ue/ue.component";
+
 import { HttpClientModule } from '@angular/common/http';
 import { ForumComponent } from './forum/forum.component';
 import { DevoirComponent } from './devoir/devoir.component';
+
 
 
 
