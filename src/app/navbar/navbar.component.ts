@@ -26,7 +26,7 @@ export class NavbarComponent implements OnInit {
   }
 
   logout(): void {
-    localStorage.removeItem('token');
+    this.authService.logout();
     this.router.navigate(['/login']);
   }
 
@@ -37,6 +37,14 @@ export class NavbarComponent implements OnInit {
       return parsedUser.role || null;
     }
     return null;
+  }
+
+  getUserFirstName(): string | null {
+    return this.authService.getFirstName();
+  }
+
+  getUserLastName(): string | null {
+    return this.authService.getLastName();
   }
 
 }
