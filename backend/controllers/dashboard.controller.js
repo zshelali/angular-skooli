@@ -38,8 +38,10 @@ const { getDB } = require('../db');
 async function addUserUe(req, res) {
   try {
     const db = getDB();
-    const newCode = req.params.codeUe;
-    const userEmail = req.body;
+    const newCode = req.params.code;
+    console.log(newCode);
+    const userEmail = req.body.email;
+    console.log(userEmail);
     const user = await db.collection("users").updateOne({ email: userEmail }, { $push: { registeredUes: {code: newCode} } } );
     res.json({message: 'RegisteredUes updated.'});
   }catch(error) {

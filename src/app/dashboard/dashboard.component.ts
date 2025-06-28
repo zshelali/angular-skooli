@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Ue } from '../models/ue.interface'
+import { UeService} from "../services/ue.service";
+import { DashboardService } from '../services/dashboard.service';
+import { AuthService } from '../services/auth.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,57 +14,74 @@ export class DashboardComponent implements OnInit {
 
   showAddUeForm = false;
 
-  newUe = {
-    title: '',
+  newUe: Ue = {
+    code:'',
+    name: '',
     description: '',
-    image: '',
-    date_updated: new Date()
+    credits: 0,
+    illustration: '',
+    createdAt: new Date()
   };
 
-  courses = [
-    {
-      title: 'Mathématiques Avancées',
-      description: 'Introduction aux bases de la logique mathématique',
-      date_updated: new Date('2025-04-03'),
-      image: 'assets/img/it41_gpt.png'
-    },
-    {
-      title: 'Physique Quantique',
-      description: 'Les fondements de la mécanique quantique',
-      date_updated: new Date('2025-05-01'),
-      image: 'assets/img/it44_gpt.png'
-    }
-  ];
+  selectedFile: File | null = null;
 
-  constructor() {}
+
+
+  constructor(
+    private ueService: UeService,
+    private dashboardService: DashboardService,
+    private authService: AuthService,
+    private userService: UserService
+  ) {}
 
   ngOnInit(): void {
   }
 
   onImageSelected(event: any): void {
-    const file = event.target.files[0];
-    if (file && file.type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.newUe.image = reader.result as string;
-      };
-      reader.readAsDataURL(file);
+    this.selectedFile = event.target.files[0];
+  }
+
+  onCreditsSelected(value: any): void {
+    if (value) {
+      this.newUe.credits = value;
+    }else{
+      this.newUe.credits = 0;
     }
+
   }
 
   addCourse(): void {
-    this.courses.push({
-      title: this.newUe.title,
-      description: this.newUe.description,
-      image: this.newUe.image,
-      date_updated: new Date()
+    this.newUe.createdAt = new Date();
+    const formData = new FormData();
+    if (this.selectedFile) {
+      formData.append('image',this.selectedFile, this.selectedFile.name)
+    }
+    formData.append('code',this.newUe.code)
+    formData.append('name',this.newUe.name);
+    if (!this.newUe.description) {
+      this.newUe.description = '';
+    }
+    formData.append('description', this.newUe.description);
+    if (!this.newUe.credits) {
+      this.newUe.credits = 1;
+    }
+    formData.append('credits',this.newUe.credits.toString());
+    const currentUser = this.authService.getCurrentUser()
+    console.log(currentUser.email);
+    this.dashboardService.addUeToUser(currentUser.email,this.newUe.code).subscribe();
+    this.ueService.createUe(formData).subscribe(response => {
+      alert('UE saved');
     });
 
+
+
     this.newUe = {
-      title: '',
+      code:'',
+      name: '',
       description: '',
-      image: '',
-      date_updated: new Date()
+      credits: 0,
+      illustration: '',
+      lastUpdateDate: new Date()
     };
     this.showAddUeForm = false;
   }

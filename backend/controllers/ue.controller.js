@@ -3,6 +3,7 @@ const { ObjectId } = require("mongodb");
 
 
 
+
 async function getAllUes(req, res) {
   try {
     const db = await getDB();
@@ -18,17 +19,22 @@ async function getAllUes(req, res) {
   }
 }
 
+
+
 async function createUe(req, res) {
   try {
+
+    const {code, name, description, credits, createdAt} = req.body;
+    const imageFileName = req.file ? req.file.filename : null;
     const ue = {
-      name: req.body.name,
-      code: req.body.code,
-      description: req.body.description,
-      credits: req.body.credits,
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      name: name,
+      code: code,
+      description: description,
+      credits: Number(credits),
+      createdAt: new Date(createdAt),
+      illustration: imageFileName
     }
-    console.log(ue.code)
+
     if ( !ue.code ||!ue.name || !ue.description || !ue.credits || !ue.illustration ) {
       return res.status(400).json({ message: 'All fields are required'});
     }
