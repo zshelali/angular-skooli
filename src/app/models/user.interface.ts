@@ -8,7 +8,7 @@ export interface User {
   
     role?: 'student' | 'prof' | 'admin' | 'profadmin'; 
   
-    registeredUEs?: string[];     // IDs of UEs user is enrolled in
+    registeredUEs?: { code: string }[];     // UEs user is enrolled in
     submissions?: string[];       // Homework submissions
     posts?: string[];             // Forum posts authored
     comments?: string[];          // Forum comments authored

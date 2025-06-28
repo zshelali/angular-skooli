@@ -24,7 +24,11 @@ export class UserService {
   }
 
   updateUser(id: string, user: Partial<User>): Observable<User> {
-    return this.http.put<User>(`${this.apiUrl}/${id}`, user);
+    console.log('🔍 UserService updating user with ID:', id);
+    console.log('🔍 UserService sending update data:', user);
+    return this.http.put<User>(`${this.apiUrl}/${id}`, user).pipe(
+      tap(response => console.log('🔍 UserService received update response:', response))
+    );
   }
 
   deleteUser(id: string): Observable<void> {
