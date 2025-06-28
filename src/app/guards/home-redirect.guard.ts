@@ -5,8 +5,7 @@ import { AuthService } from '../services/auth.service';
 @Injectable({
   providedIn: 'root'
 })
-export class LoggedinNologinGuard implements CanActivate {
-
+export class HomeRedirectGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(): boolean {
@@ -23,4 +22,5 @@ export class LoggedinNologinGuard implements CanActivate {
 
     return true; // Allow access if not logged in
   }
+  
 }
