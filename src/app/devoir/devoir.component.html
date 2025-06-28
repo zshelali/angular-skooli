@@ -1,5 +1,5 @@
 <!-- Partie ÉTUDIANT -->
-<div class="card p-3" *ngIf="user.role === 'etudiant'">
+<div class="card p-3" *ngIf="user.role === 'student'">
     <h4>Soumettre un devoir</h4>
     <form (ngSubmit)="submitDevoir()" #devoirForm="ngForm">
         <div class="mb-3">

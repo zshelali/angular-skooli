@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../services/auth.service';
+import { ActivatedRoute} from "@angular/router";
+import { DevoirService} from "../services/devoir.service";
+import { Devoir } from '../models/devoir.interface'
 
 @Component({
   selector: 'app-devoir',
@@ -8,20 +11,21 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./devoir.component.css']
 })
 export class DevoirComponent implements OnInit {
-  devoir = {
+  devoir: Devoir = {
     titre: '',
-    etudiant: { name: 'Jean Dupont', email: 'jean@example.com' } // à adapter selon l’utilisateur connecté
+    etudiant: { name: this.authService.getLastName() || "John", email: this.authService.getCurrentUser().email },
+    codeUe : this.route.snapshot.paramMap.get('id') || "1",
   };
 
   selectedFile: File | null = null;
   devoirsSoumis: any[] = [];
-  user: any ;
+  user: any
 
   // Champs temporaires pour noter
   tempNotes: { [key: string]: number } = {};
   tempCommentaires: { [key: string]: string } = {};
 
-  constructor(private authService: AuthService, private http: HttpClient) {}
+  constructor(private authService: AuthService, private http: HttpClient, private route: ActivatedRoute, private devoirService: DevoirService) { }
 
   ngOnInit(): void {
     this.user = this.authService.getCurrentUser();
@@ -38,6 +42,7 @@ export class DevoirComponent implements OnInit {
     const formData = new FormData();
     formData.append('file', this.selectedFile);
     formData.append('titre', this.devoir.titre);
+    formData.append('codeUe', this.devoir.codeUe || '1')
     formData.append('etudiant', JSON.stringify(this.devoir.etudiant));
 
     this.http.post('http://localhost:3000/api/devoirs', formData).subscribe({
@@ -52,11 +57,14 @@ export class DevoirComponent implements OnInit {
   }
 
   loadDevoirs(): void {
-    this.http.get<any[]>('http://localhost:3000/api/devoirs').subscribe({
+    this.devoirService.getDevoirsByUe(this.devoir.codeUe).subscribe({
       next: data => {
         this.devoirsSoumis = data;
         // Initialiser les champs de correction temporaires
-        data.forEach(d => {
+        data.forEach((d:Devoir) => {
+          if(!d._id){
+            d._id = "1"
+          }
           this.tempNotes[d._id] = d.note || 0;
           this.tempCommentaires[d._id] = d.commentaire || '';
         });
@@ -64,7 +72,7 @@ export class DevoirComponent implements OnInit {
       error: err => console.error('❌ Erreur chargement devoirs', err)
     });
   }
-  
+
   corrigerDevoir(devoir: any): void {
     const correction = {
       note: this.tempNotes[devoir._id],

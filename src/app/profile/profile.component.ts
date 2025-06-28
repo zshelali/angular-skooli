@@ -20,6 +20,7 @@ export class ProfileComponent implements OnInit {
     lastName: 'Hajeri',
     email: 'ali.hajeri@utbm.fr',
     role: "student",
+    createdAt: new Date(),
     profilePicture: 'assets/img/it41_gpt.png'
   }
 
