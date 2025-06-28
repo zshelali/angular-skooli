@@ -55,7 +55,7 @@ async function createUe(req, res) {
 async function updateUe(req, res) {
   console.log('🔍 Update UE called with ID:', req.params.id);
   console.log('🔍 Request body:', req.body);
-  
+
   const ueId = req.params.id;
   const updateData = req.body;
 
@@ -66,21 +66,21 @@ async function updateUe(req, res) {
     console.log('❌ Invalid UE ID:', ueId);
     return res.status(400).json({ error: "Invalid UE ID" });
   }
-  
+
   updateData.updatedAt = new Date();
 
   try {
-    const db = getDB(); 
+    const db = getDB();
     const result = await db
       .collection("ues")
       .findOneAndUpdate(
-        { _id: new ObjectId(ueId) }, 
+        { _id: new ObjectId(ueId) },
         { $set: updateData },
         { returnDocument: "after" }
       );
-      
+
     console.log('🔍 MongoDB result:', result);
-    
+
     if (!result) {
       console.log('❌ UE not found');
       return res.status(404).json({ error: "UE not found😤" });
@@ -91,9 +91,9 @@ async function updateUe(req, res) {
   } catch (err) {
     console.error("❌ Error updating UE:", err);
     console.error("❌ Error details:", err.message);
-    res.status(500).json({ 
-      error: "Failed to update UE (server😡)", 
-      details: err.message 
+    res.status(500).json({
+      error: "Failed to update UE (server😡)",
+      details: err.message
     });
   }
 }
@@ -111,6 +111,7 @@ async function deleteUe(req, res) {
     if (result.deletedCount === 0) {
       return res.status(404).json({ error: "UE not found😤" });
     }
+    await db.collection("users").updateMany({}, {$pull: {registeredUEs: {code: ueId}}})
 
     res.json({ message: "UE deleted successfully" });
   } catch (err) {
