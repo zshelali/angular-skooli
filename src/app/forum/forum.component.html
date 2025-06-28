@@ -21,6 +21,7 @@
 <!-- Affichage des forums -->
 <ul class="list-group">
     <li *ngFor="let forum of forums" class="list-group-item">
+      <br>
         <div class="d-flex justify-content-between align-items-center">
             <div>
                 <strong>{{ forum.title }}</strong>
@@ -39,5 +40,6 @@
                 <button class="btn btn-primary" (click)="sendMessage(forum)">Envoyer</button>
             </div>
         </div>
+      <br>
     </li>
 </ul>
