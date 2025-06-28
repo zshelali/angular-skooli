@@ -3,7 +3,7 @@ const { getDB } = require('../db');
 
 
 
-exports.getUserUe =  async (req, res) => {
+ async function getUserUe (req, res)  {
   try {
     const db = getDB();
 
@@ -34,3 +34,17 @@ exports.getUserUe =  async (req, res) => {
     console.error('❌ Erreur GET forum :', err);
   }
 }
+
+async function addUserUe(req, res) {
+  try {
+    const db = getDB();
+    const newCode = req.params.codeUe;
+    const userEmail = req.body;
+    const user = await db.collection("users").updateOne({ email: userEmail }, { $push: { registeredUes: {code: newCode} } } );
+    res.json({message: 'RegisteredUes updated.'});
+  }catch(error) {
+    res.status(500).json({message: "Erreur serveur", error})
+  }
+}
+
+module.exports = {getUserUe, addUserUe}

@@ -20,20 +20,22 @@ async function getAllUes(req, res) {
 
 async function createUe(req, res) {
   try {
-    const { code, name, description, credits, illustration } = req.body;
-
-    const newUe = {
-      code,
-      name,
-      description,
-      credits,
-      illustration,
+    const ue = {
+      name: req.body.name,
+      code: req.body.code,
+      description: req.body.description,
+      credits: req.body.credits,
       createdAt: new Date(),
       updatedAt: new Date(),
-    };
+    }
+    console.log(ue.code)
+    if ( !ue.code ||!ue.name || !ue.description || !ue.credits || !ue.illustration ) {
+      return res.status(400).json({ message: 'All fields are required'});
+    }
+
     const db = await getDB();
-    const result = await db.collection("ues").insertOne(newUe);
-    res.status(201).json({ _id: result.insertedId, ...newUe });
+    const result = await db.collection("ues").insertOne(ue);
+    res.status(201).json({ message: 'UE saved', id: result.insertedId });
   } catch (err) {
     console.error("Error creating UE:😢", err);
     res.status(500).json({ error: "Failed to create UE (server😡)" });
@@ -91,12 +93,7 @@ async function deleteUe(req, res) {
   }
 }
 
-module.exports = {
-  getAllUes,
-  createUe,
-  updateUe,
-  deleteUe,
-};
+
 
 async function getCurrentUe(req, res) {
   try {
@@ -112,4 +109,4 @@ async function getCurrentUe(req, res) {
   }
 }
 
-module.exports = { getAllUes, createUe, getCurrentUe, updateUe };
+module.exports = { getAllUes, createUe, getCurrentUe, updateUe, deleteUe };

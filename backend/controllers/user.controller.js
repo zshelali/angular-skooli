@@ -106,4 +106,6 @@ async function getSpecificUser(req, res) {
   }
 }
 
-module.exports = { getAllUsers, getSpecificUser };
+
+
+module.exports = { getAllUsers, getSpecificUser, createUser, updateUser, deleteUser };
