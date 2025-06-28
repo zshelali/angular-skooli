@@ -22,10 +22,11 @@ const { getDB } = require('../db');
     }
 
     const codes = (user.registeredUEs || []).map(ue => ue.code)
+    let ues = undefined;
     if (user.role === "profadmin" || user.role === "admin") {
-      const ues = await db.collection("ues").find().toArray();
+      ues = await db.collection("ues").find().toArray();
     }else{
-      const ues = await db.collection('ues').find({code: {$in: codes}}).toArray();
+     ues = await db.collection('ues').find({code: {$in: codes}}).toArray();
     }
 
 
