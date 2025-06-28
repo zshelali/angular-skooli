@@ -22,6 +22,7 @@ export class UeComponent implements OnInit {
     name: 'Quantum Computing Basics'
   };
 
+
   users: User[] = [];
   modules: any[] = [];
 

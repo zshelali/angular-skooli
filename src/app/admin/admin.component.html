@@ -4,43 +4,41 @@
   <!-- Angular-controlled Nav Tabs -->
   <ul class="nav nav-tabs mb-3">
     <li class="nav-item">
-      <a class="nav-link" [class.active]="activeTab === 'ues'" (click)="setTab('ues')">UEs</a>
+      <a
+        class="nav-link"
+        [class.active]="activeTab === 'ues'"
+        (click)="setTab('ues')"
+        >UEs</a
+      >
     </li>
     <li class="nav-item">
-      <a class="nav-link" [class.active]="activeTab === 'users'" (click)="setTab('users')">Utilisateurs</a>
+      <a
+        class="nav-link"
+        [class.active]="activeTab === 'users'"
+        (click)="setTab('users')"
+        >Users</a
+      >
     </li>
     <li class="nav-item">
-      <a class="nav-link" [class.active]="activeTab === 'assignation'" (click)="setTab('assignation')">Assignation</a>
+      <a
+        class="nav-link"
+        [class.active]="activeTab === 'assignation'"
+        (click)="setTab('assignation')"
+        >Assignation</a
+      >
     </li>
   </ul>
 
   <!-- Tab Content -->
   <div *ngIf="activeTab === 'ues'" class="tab-pane fade show active">
-    <div class="card">
-      <div class="card-header bg-primary text-white">Unités d’Enseignement</div>
-      <div class="card-body">
-        <ul class="list-group">
-          <li class="list-group-item" *ngFor="let ue of ues">
-            {{ ue.code }} – {{ ue.name }}
-          </li>
-        </ul>
-      </div>
-    </div>
+    <app-ue-management></app-ue-management>
   </div>
 
   <div *ngIf="activeTab === 'users'" class="tab-pane fade show active">
-    <div class="card">
-      <div class="card-header bg-secondary text-white">Utilisateurs</div>
-      <div class="card-body">
-        <ul class="list-group">
-          <li class="list-group-item" *ngFor="let user of users">
-            {{ user.name }} ({{ user.email }}) – Rôle : {{ user.role }}
-          </li>
-        </ul>
-      </div>
-    </div>
+    <app-user-management></app-user-management>
   </div>
 
+  <!-- 
   <div *ngIf="activeTab === 'assignation'" class="tab-pane fade show active">
     <div class="card">
       <div class="card-header bg-dark text-white">Inscriptions aux UEs</div>
@@ -54,4 +52,5 @@
       </div>
     </div>
   </div>
+</div> -->
 </div>

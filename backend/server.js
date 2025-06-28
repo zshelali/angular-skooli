@@ -11,6 +11,7 @@ app.use(express.json());
 app.use(cors());
 
 connectToMongoDB()
+
     .then(() => {
         app.use("/api/modules", require("./routes/module.route"));
         app.use("/api/secret", require("./routes/protected.route"));

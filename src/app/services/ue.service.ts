@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {UE} from "../models/ue.interface";
 
+import { Ue } from '../models/ue.interface'; 
 
 
 @Injectable({
@@ -23,5 +23,12 @@ export class UeService {
 
   getCurrent(codeUE: any): Observable<UE> {
     return this.http.get<UE>(`${this.apiUrl}/${codeUE}`);
+  }
+
+  update(id: string, ue:Partial<Ue>): Observable<Ue> {
+    return this.http.put<Ue>(`${this.apiUrl}/${id}`, ue);
+  }
+  delete(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }
