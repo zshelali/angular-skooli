@@ -1,16 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { Ue } from '../models/ue.interface'
 import { UeService} from "../services/ue.service";
 import { DashboardService } from '../services/dashboard.service';
 import { AuthService } from '../services/auth.service';
-import { UserService } from '../services/user.service';
+
+
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
+
+
+
 export class DashboardComponent implements OnInit {
+
+
+
 
   showAddUeForm = false;
 
@@ -31,7 +38,6 @@ export class DashboardComponent implements OnInit {
     private ueService: UeService,
     private dashboardService: DashboardService,
     private authService: AuthService,
-    private userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -51,7 +57,6 @@ export class DashboardComponent implements OnInit {
   }
 
   addCourse(): void {
-    this.newUe.createdAt = new Date();
     const formData = new FormData();
     if (this.selectedFile) {
       formData.append('image',this.selectedFile, this.selectedFile.name)
@@ -84,5 +89,6 @@ export class DashboardComponent implements OnInit {
       lastUpdateDate: new Date()
     };
     this.showAddUeForm = false;
+
   }
 }

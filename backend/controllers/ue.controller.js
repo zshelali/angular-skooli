@@ -24,15 +24,15 @@ async function getAllUes(req, res) {
 async function createUe(req, res) {
   try {
 
-    const {code, name, description, credits, createdAt} = req.body;
+    const {code, name, description, credits} = req.body;
     const imageFileName = req.file ? req.file.filename : null;
     const ue = {
       name: name,
       code: code,
       description: description,
       credits: Number(credits),
-      createdAt: new Date(createdAt),
-      illustration: imageFileName
+      createdAt: new Date(),
+      illustration: "/assets/img/" + imageFileName
     }
 
     if ( !ue.code ||!ue.name || !ue.description || !ue.credits || !ue.illustration ) {
