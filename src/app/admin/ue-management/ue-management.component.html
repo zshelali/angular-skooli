@@ -1,41 +1,140 @@
 <div class="card">
-    <div class="card-header bg-primary text-white">List of UEs</div>
-    <div class="card-body p-0">
-      <div class="table-responsive">
-        <table class="table table-striped mb-0">
-          <thead class="table-light">
-            <tr>
-              <th>UE Code</th>
-              <th>UE Name</th>
-              <th>Description</th>
-              <th>Credits</th>
-              <th></th>
-              <th class="text-end"></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let ue of ues">
-              <td>{{ ue.code }}</td>
-              <td>{{ ue.name }}</td>
-              <td>{{ ue.description }}</td>
-              <td>{{ ue.credits }}</td>
-              <td><button (click)="openEditForm(ue)" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil-square"></i></button></td>
-              <td class="text-end">
-                <button (click)="deleteUe(ue._id!)" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash3-fill"></i></button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+  <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+    <h5 class="mb-0">List of UEs</h5>
+    <!-- Create UE Button that opens modal -->
+    <button 
+      (click)="openCreateModal()" 
+      class="btn btn-light btn-sm">
+      <i class="bi bi-plus-circle"></i> Create New UE
+    </button>
+  </div>
+  
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-striped mb-0">
+        <thead class="table-light">
+          <tr>
+            <th>UE Code</th>
+            <th>UE Name</th>
+            <th>Description</th>
+            <th>Credits</th>
+            <th class="text-end">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let ue of ues; trackBy: trackByUeId" [formGroup]="editForm">
+            <!-- UE Code -->
+            <td>
+              <span *ngIf="!isEditing(ue._id!)">{{ ue.code }}</span>
+              <div *ngIf="isEditing(ue._id!)">
+                <input 
+                  type="text" 
+                  class="form-control form-control-sm"
+                  [class.is-invalid]="getFormControl('code')?.invalid && getFormControl('code')?.touched"
+                  formControlName="code"
+                  placeholder="UE Code">
+                <div class="invalid-feedback" *ngIf="getFormControl('code')?.invalid && getFormControl('code')?.touched">
+                  UE Code is required
+                </div>
+              </div>
+            </td>
+
+            <!-- UE Name -->
+            <td>
+              <span *ngIf="!isEditing(ue._id!)">{{ ue.name }}</span>
+              <div *ngIf="isEditing(ue._id!)">
+                <input 
+                  type="text" 
+                  class="form-control form-control-sm"
+                  [class.is-invalid]="getFormControl('name')?.invalid && getFormControl('name')?.touched"
+                  formControlName="name"
+                  placeholder="UE Name">
+                <div class="invalid-feedback" *ngIf="getFormControl('name')?.invalid && getFormControl('name')?.touched">
+                  UE Name is required
+                </div>
+              </div>
+            </td>
+
+            <!-- Description -->
+            <td>
+              <span *ngIf="!isEditing(ue._id!)">{{ ue.description || 'No description' }}</span>
+              <textarea 
+                *ngIf="isEditing(ue._id!)" 
+                class="form-control form-control-sm"
+                formControlName="description"
+                placeholder="Description"
+                rows="2"></textarea>
+            </td>
+
+            <!-- Credits -->
+            <td>
+              <span *ngIf="!isEditing(ue._id!)">{{ ue.credits }}</span>
+              <div *ngIf="isEditing(ue._id!)">
+                <input 
+                  type="number" 
+                  class="form-control form-control-sm"
+                  [class.is-invalid]="getFormControl('credits')?.invalid && getFormControl('credits')?.touched"
+                  formControlName="credits"
+                  placeholder="Credits"
+                  min="1">
+                <div class="invalid-feedback" *ngIf="getFormControl('credits')?.invalid && getFormControl('credits')?.touched">
+                  Credits must be at least 1
+                </div>
+              </div>
+            </td>
+
+            <!-- Actions -->
+            <td class="text-end">
+              <div class="btn-group" role="group">
+                <!-- Edit Button (your original inline editing) -->
+                <button 
+                  *ngIf="!isEditing(ue._id!)" 
+                  (click)="startEdit(ue)" 
+                  class="btn btn-sm btn-outline-primary"
+                  title="Edit">
+                  <i class="bi bi-pencil-square"></i>
+                </button>
+
+                <!-- Save Button -->
+                <button 
+                  *ngIf="isEditing(ue._id!)" 
+                  (click)="saveEdit()" 
+                  class="btn btn-sm btn-success"
+                  [disabled]="editForm.invalid"
+                  title="Save">
+                  <i class="bi bi-check-lg"></i>
+                </button>
+
+                <!-- Cancel Button -->
+                <button 
+                  *ngIf="isEditing(ue._id!)" 
+                  (click)="cancelEdit()" 
+                  class="btn btn-sm btn-secondary"
+                  title="Cancel">
+                  <i class="bi bi-x-lg"></i>
+                </button>
+
+                <!-- Delete Button -->
+                <button 
+                  *ngIf="!isEditing(ue._id!)"
+                  (click)="deleteUe(ue._id!)" 
+                  class="btn btn-sm btn-outline-danger"
+                  title="Delete">
+                  <i class="bi bi-trash3-fill"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
+</div>
 
-  <app-ue-form-modal
-  [visible]="showFormModal"
-  [ueToEdit]="editingUe"
-  (formSubmitted)="handleFormSubmit($event)"
-  (modalClosed)="showFormModal = false">
+<!-- UE Form Modal (only for creating new UEs) -->
+<app-ue-form-modal
+  [ueToEdit]="ueToEdit"
+  [visible]="showModal"
+  (formSubmitted)="onFormSubmitted($event)"
+  (modalClosed)="onModalClosed()">
 </app-ue-form-modal>
-
-
-  
