@@ -9,24 +9,23 @@ const { getDB } = require('../db');
 
 
     const emailUser = req.params.email;
+    console.log(emailUser);
     const user = await db.collection("users").findOne({email:  emailUser});
-
+    console.log(user.role);
 
     if (!user) {
       console.error('❌ User not found' );
       return res.status(404).json({message: 'Utilisateur introuvable.'});
     }
 
-    if (!user.registeredUEs || !Array.isArray(user.registeredUEs) || user.registeredUEs.length === 0) {
-      return res.json({ues: []});
-    }
-
     const codes = (user.registeredUEs || []).map(ue => ue.code)
     let ues = undefined;
     if (user.role === "profadmin" || user.role === "admin") {
       ues = await db.collection("ues").find().toArray();
-    }else{
+    }else if (user.role === "student" || user.role === "prof"){
      ues = await db.collection('ues').find({code: {$in: codes}}).toArray();
+    }else{
+      ues = []
     }
 
 
