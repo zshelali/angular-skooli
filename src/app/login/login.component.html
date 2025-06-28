@@ -18,6 +18,11 @@
       </div>
     </div>
 
+    <!-- Error Message Display -->
+    <div *ngIf="errorMsg" class="alert alert-danger mb-3" role="alert">
+      {{ errorMsg }}
+    </div>
+
     <button type="submit" class="btn btn-primary w-100">Log In</button>
   </form>
 </div>
