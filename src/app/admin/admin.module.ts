@@ -10,10 +10,11 @@ import { UeManagementComponent } from './ue-management/ue-management.component';
 import { UeFormModalComponent } from './ue-form-modal/ue-form-modal.component';
 
 import { ReactiveFormsModule } from '@angular/forms';
+import { UserFormModalComponent } from './user-form-modal/user-form-modal.component';
 
 
 @NgModule({
-  declarations: [AdminComponent, UserManagementComponent, UeManagementComponent, UeFormModalComponent],
+  declarations: [AdminComponent, UserManagementComponent, UeManagementComponent, UeFormModalComponent, UserFormModalComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,

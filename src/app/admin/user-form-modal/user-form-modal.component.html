@@ -1,0 +1,60 @@
+<div class="modal fade show d-block" tabindex="-1" role="dialog" *ngIf="visible">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">{{ userToEdit ? 'Edit User' : 'Create User' }}</h5>
+        <button type="button" class="btn-close" (click)="close()"></button>
+      </div>
+
+      <div class="modal-body">
+        <form [formGroup]="userForm" (ngSubmit)="submit()">
+          <div class="mb-3">
+            <label class="form-label">First Name</label>
+            <input class="form-control" formControlName="firstName">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Last Name</label>
+            <input class="form-control" formControlName="lastName">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" formControlName="email">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Password</label>
+            <div class="input-group">
+              <input type="text" class="form-control" formControlName="password" 
+                     [placeholder]="userToEdit ? 'Enter new password (leave blank to keep current)' : 'Generated password'">
+              <button type="button" class="btn btn-outline-secondary" 
+                      (click)="regeneratePassword()"
+                      title="Generate new random password">
+                <i class="bi bi-arrow-clockwise"></i>
+              </button>
+            </div>
+            <div class="form-text">
+              {{ userToEdit ? 'Enter new password to reset it (leave blank to keep current)' : 'Random password generated - you can modify it' }}
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Role</label>
+            <select class="form-control" formControlName="role">
+              <option value="student">Student</option>
+              <option value="prof">Professor</option>
+              <option value="admin">Admin</option>
+              <option value="profadmin">Professor + Admin</option>
+            </select>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="close()">Cancel</button>
+        <button type="submit" class="btn btn-primary" (click)="submit()">
+          {{ userToEdit ? 'Update' : 'Create' }}
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>

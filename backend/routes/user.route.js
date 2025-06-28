@@ -5,8 +5,7 @@ const { getAllUsers, getSpecificUser, createUser, updateUser, deleteUser} = requ
 router.get('/', getAllUsers);
 router.get('/:email', getSpecificUser);
 router.post('/', createUser);
-router.put('/:email', updateUser);
-router.delete('/:email', deleteUser);
-
+router.put('/:id', updateUser);  // Changed from /:email to /:id
+router.delete('/:id', deleteUser);  // Changed from /:email to /:id
 
 module.exports = router;

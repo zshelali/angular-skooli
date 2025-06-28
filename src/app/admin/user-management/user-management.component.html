@@ -1,5 +1,14 @@
 <div class="card">
-  <div class="card-header bg-secondary text-white">List of Users</div>
+  <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+    <h5 class="mb-0">List of Users</h5>
+    <!-- Create User Button that opens modal -->
+    <button 
+      (click)="openCreateModal()" 
+      class="btn btn-light btn-sm">
+      <i class="bi bi-plus-circle"></i> Create New User
+    </button>
+  </div>
+  
   <div class="card-body p-0">
     <div class="table-responsive">
       <table class="table table-striped mb-0">
@@ -8,26 +17,133 @@
             <th>First Name</th>
             <th>Last Name</th>
             <th>Email</th>
+            <th>Password</th>
             <th>Role</th>
-            <th></th>
-            <th class="text-end"></th>
+            <th class="text-end">Actions</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let user of users">
-            <td>{{ user.firstName }}</td>
-            <td>{{ user.lastName }}</td>
-            <td>{{ user.email }}</td>
-            <td>{{ user.role }}</td>
+          <tr *ngFor="let user of users; trackBy: trackByUserId">
+            <!-- First Name -->
             <td>
-              <button class="btn btn-sm btn-outline-primary">
-                <i class="bi bi-pencil-square"></i>
-              </button>
+              <span *ngIf="!isEditing(user._id!)">{{ user.firstName }}</span>
+              <div *ngIf="isEditing(user._id!)" [formGroup]="editForm">
+                <input 
+                  type="text" 
+                  class="form-control form-control-sm"
+                  [class.is-invalid]="getFormControl('firstName')?.invalid && getFormControl('firstName')?.touched"
+                  formControlName="firstName"
+                  placeholder="First Name">
+                <div class="invalid-feedback" *ngIf="getFormControl('firstName')?.invalid && getFormControl('firstName')?.touched">
+                  First Name is required
+                </div>
+              </div>
             </td>
+
+            <!-- Last Name -->
+            <td>
+              <span *ngIf="!isEditing(user._id!)">{{ user.lastName }}</span>
+              <div *ngIf="isEditing(user._id!)" [formGroup]="editForm">
+                <input 
+                  type="text" 
+                  class="form-control form-control-sm"
+                  [class.is-invalid]="getFormControl('lastName')?.invalid && getFormControl('lastName')?.touched"
+                  formControlName="lastName"
+                  placeholder="Last Name">
+                <div class="invalid-feedback" *ngIf="getFormControl('lastName')?.invalid && getFormControl('lastName')?.touched">
+                  Last Name is required
+                </div>
+              </div>
+            </td>
+
+            <!-- Email -->
+            <td>
+              <span *ngIf="!isEditing(user._id!)">{{ user.email }}</span>
+              <div *ngIf="isEditing(user._id!)" [formGroup]="editForm">
+                <input 
+                  type="email" 
+                  class="form-control form-control-sm"
+                  [class.is-invalid]="getFormControl('email')?.invalid && getFormControl('email')?.touched"
+                  formControlName="email"
+                  placeholder="Email">
+                <div class="invalid-feedback" *ngIf="getFormControl('email')?.invalid && getFormControl('email')?.touched">
+                  Valid email is required
+                </div>
+              </div>
+            </td>
+
+            <!-- Password -->
+            <td>
+              <span *ngIf="!isEditing(user._id!)">••••••••</span>
+              <div *ngIf="isEditing(user._id!)" [formGroup]="editForm">
+                <input 
+                  type="text" 
+                  class="form-control form-control-sm"
+                  formControlName="password"
+                  placeholder="New password (leave blank to keep current)">
+                <small class="text-muted">Leave blank to keep current password</small>
+              </div>
+            </td>
+
+            <!-- Role -->
+            <td>
+              <span *ngIf="!isEditing(user._id!)">{{ user.role }}</span>
+              <div *ngIf="isEditing(user._id!)" [formGroup]="editForm">
+                <select 
+                  class="form-control form-control-sm"
+                  [class.is-invalid]="getFormControl('role')?.invalid && getFormControl('role')?.touched"
+                  formControlName="role">
+                  <option value="student">Student</option>
+                  <option value="prof">Professor</option>
+                  <option value="admin">Admin</option>
+                  <option value="profadmin">Professor + Admin</option>
+                </select>
+                <div class="invalid-feedback" *ngIf="getFormControl('role')?.invalid && getFormControl('role')?.touched">
+                  Role is required
+                </div>
+              </div>
+            </td>
+
+            <!-- Actions -->
             <td class="text-end">
-              <button class="btn btn-sm btn-outline-danger">
-                <i class="bi bi-trash3-fill"></i>
-              </button>
+              <div class="btn-group" role="group">
+                <!-- Edit Button -->
+                <button 
+                  *ngIf="!isEditing(user._id!)" 
+                  (click)="startEdit(user)" 
+                  class="btn btn-sm btn-outline-primary"
+                  title="Edit">
+                  <i class="bi bi-pencil-square"></i>
+                </button>
+
+                <!-- Save Button -->
+                <button 
+                  *ngIf="isEditing(user._id!)" 
+                  (click)="saveEdit()" 
+                  class="btn btn-sm btn-success"
+                  [disabled]="editForm.invalid"
+                  title="Save">
+                  <i class="bi bi-check-lg"></i>
+                </button>
+
+                <!-- Cancel Button -->
+                <button 
+                  *ngIf="isEditing(user._id!)" 
+                  (click)="cancelEdit()" 
+                  class="btn btn-sm btn-secondary"
+                  title="Cancel">
+                  <i class="bi bi-x-lg"></i>
+                </button>
+
+                <!-- Delete Button -->
+                <button 
+                  *ngIf="!isEditing(user._id!)"
+                  (click)="deleteUser(user._id!)" 
+                  class="btn btn-sm btn-outline-danger"
+                  title="Delete">
+                  <i class="bi bi-trash3-fill"></i>
+                </button>
+              </div>
             </td>
           </tr>
         </tbody>
@@ -35,3 +151,11 @@
     </div>
   </div>
 </div>
+
+<!-- User Form Modal (only for creating new users) -->
+<app-user-form-modal
+  [userToEdit]="userToEdit"
+  [visible]="showModal"
+  (formSubmitted)="onFormSubmitted($event)"
+  (modalClosed)="onModalClosed()">
+</app-user-form-modal>
