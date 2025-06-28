@@ -23,4 +23,8 @@ export class UeCardListComponent implements OnInit {
     this.dashboardService.getUserUe(userInfo.email).subscribe(data => this.UeCardArray = data);
   }
 
+  isEmpty(): boolean {
+    return !!this.UeCardArray;
+  }
+
 }

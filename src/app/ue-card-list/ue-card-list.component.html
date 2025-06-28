@@ -1,3 +1,5 @@
 <div class="row row-cols-1 row-cols-md-3 g-4 mt-4">
-  <app-ue-card *ngFor="let loopvar of UeCardArray" [ue]="loopvar"></app-ue-card>
+  <span *ngIf="isEmpty()">
+    <app-ue-card *ngFor="let loopvar of UeCardArray" [ue]="loopvar"></app-ue-card>
+  </span>
 </div>
