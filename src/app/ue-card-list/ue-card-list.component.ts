@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UE } from 'src/app/models/ue.interface'
+import { Ue } from 'src/app/models/ue.interface'
 import{ DashboardService} from "../services/dashboard.service";
 import { AuthService } from "../services/auth.service";
 
@@ -10,7 +10,7 @@ import { AuthService } from "../services/auth.service";
 })
 export class UeCardListComponent implements OnInit {
 
-  UeCardArray: UE[] = [];
+  UeCardArray: Ue[] = [];
 
   constructor(private dashboardService: DashboardService, private authService: AuthService) { }
 

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import {UE} from 'src/app/models/ue.interface'
+import {Ue} from 'src/app/models/ue.interface'
 
 @Component({
   selector: 'app-ue-card',
@@ -8,7 +8,7 @@ import {UE} from 'src/app/models/ue.interface'
 })
 export class UeCardComponent implements OnInit {
 
-  @Input() ue !: UE;
+  @Input() ue !: Ue;
 
   constructor() { }
 

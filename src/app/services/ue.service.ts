@@ -13,16 +13,16 @@ export class UeService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<UE[]> {
-    return this.http.get<UE[]>(this.apiUrl);
+  getAll(): Observable<Ue[]> {
+    return this.http.get<Ue[]>(this.apiUrl);
   }
 
-  add(ue: UE): Observable<UE> {
-    return this.http.post<UE>(this.apiUrl, ue);
+  add(ue: Ue): Observable<Ue> {
+    return this.http.post<Ue>(this.apiUrl, ue);
   }
 
-  getCurrent(codeUE: any): Observable<UE> {
-    return this.http.get<UE>(`${this.apiUrl}/${codeUE}`);
+  getCurrent(codeUe: any): Observable<Ue> {
+    return this.http.get<Ue>(`${this.apiUrl}/${codeUe}`);
   }
 
   update(id: string, ue:Partial<Ue>): Observable<Ue> {

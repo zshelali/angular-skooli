@@ -5,7 +5,7 @@ import {User} from '../models/user.interface'
 import { ForumService } from '../services/forum.service';
 import {UeService} from "../services/ue.service";
 import {ActivatedRoute} from "@angular/router";
-import {UE} from "../models/ue.interface";
+import {Ue} from "../models/ue.interface";
 
 
 @Component({
@@ -17,7 +17,7 @@ export class UeComponent implements OnInit {
 
   activeTab: 'cours' | 'users' | 'forum' | 'devoirs' = 'cours';
   // Tu pourras plus tard peupler ce champ dynamiquement depuis une route /api/ues/:id
-  ue: UE = {
+  ue: Ue = {
     code: 'IT41',
     name: 'Quantum Computing Basics'
   };
