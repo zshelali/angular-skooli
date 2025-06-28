@@ -27,7 +27,7 @@ async function getAllUsers(req, res) {
 async function createUser(req, res) {
   try {
     console.log('🔍 Backend received user data:', req.body);
-    const { firstName, lastName, email, password, role } = req.body;
+    const { firstName, lastName, email, password, role, registeredUEs } = req.body;
 
     // Check if password is provided
     if (!password) {
@@ -36,6 +36,7 @@ async function createUser(req, res) {
     }
 
     console.log('🔍 Password provided:', password ? 'YES' : 'NO');
+    console.log('🔍 Registered UEs:', registeredUEs);
 
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -46,6 +47,7 @@ async function createUser(req, res) {
       email,
       password: hashedPassword,
       role,
+      registeredUEs: registeredUEs || [],
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -101,6 +103,12 @@ async function updateUser(req, res) {
     console.log('🔍 No password provided for update, keeping current password');
     // Remove empty password field to avoid overwriting with empty string
     delete updateData.password;
+  }
+
+  // Handle registeredUEs
+  if (updateData.registeredUEs !== undefined) {
+    console.log('🔍 Updating registered UEs:', updateData.registeredUEs);
+    updateData.registeredUEs = updateData.registeredUEs || [];
   }
 
   updateData.updatedAt = new Date();

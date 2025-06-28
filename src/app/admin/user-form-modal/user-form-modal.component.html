@@ -45,6 +45,29 @@
               <option value="profadmin">Professor + Admin</option>
             </select>
           </div>
+          
+          <div class="mb-3">
+            <label class="form-label">Assigned UEs</label>
+            <div class="form-text mb-2">Select the UEs this user should be registered for:</div>
+            <div class="row" *ngIf="availableUes.length > 0; else noUesMessage">
+              <div class="col-md-6" *ngFor="let ue of availableUes">
+                <div class="form-check">
+                  <input 
+                    class="form-check-input" 
+                    type="checkbox" 
+                    [id]="'ue-' + ue.code"
+                    [checked]="isUeSelected(ue.code)"
+                    (change)="toggleUeSelection(ue)">
+                  <label class="form-check-label" [for]="'ue-' + ue.code">
+                    <strong>{{ ue.code }}</strong> - {{ ue.name }}
+                  </label>
+                </div>
+              </div>
+            </div>
+            <ng-template #noUesMessage>
+              <div class="text-muted">No UEs available. Create some UEs first.</div>
+            </ng-template>
+          </div>
         </form>
       </div>
 

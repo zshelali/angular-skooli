@@ -1,8 +1,10 @@
 import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 
 import { User } from 'src/app/models/user.interface';
+import { Ue } from 'src/app/models/ue.interface';
 import { Input, Output, EventEmitter } from '@angular/core';
+import { UeService } from 'src/app/services/ue.service';
 
 @Component({
   selector: 'app-user-form-modal',
@@ -16,11 +18,13 @@ export class UserFormModalComponent implements OnInit, OnChanges {
   @Output() modalClosed = new EventEmitter<void>();
 
   userForm!: FormGroup;
+  availableUes: Ue[] = [];
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private ueService: UeService) { }
 
   ngOnInit(): void {
     this.initializeForm();
+    this.loadAvailableUes();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -41,7 +45,48 @@ export class UserFormModalComponent implements OnInit, OnChanges {
       email: [this.userToEdit?.email || '', [Validators.required, Validators.email]],
       password: [randomPassword, this.userToEdit ? [] : Validators.required], // Required for new users
       role: [this.userToEdit?.role || 'student', Validators.required],
+      registeredUEs: this.fb.array([]) // Add FormArray for UEs
     });
+
+    // Populate UEs if editing existing user
+    if (this.userToEdit?.registeredUEs) {
+      const registeredUEsArray = this.userForm.get('registeredUEs') as FormArray;
+      this.userToEdit.registeredUEs.forEach(ue => {
+        registeredUEsArray.push(this.fb.control(ue));
+      });
+    }
+  }
+
+  private loadAvailableUes(): void {
+    this.ueService.getAll().subscribe({
+      next: (ues) => {
+        this.availableUes = ues;
+      },
+      error: (error) => {
+        console.error('Error loading UEs:', error);
+      }
+    });
+  }
+
+  get registeredUEsArray(): FormArray {
+    return this.userForm.get('registeredUEs') as FormArray;
+  }
+
+  isUeSelected(ueCode: string): boolean {
+    return this.registeredUEsArray.value.some((ue: any) => ue.code === ueCode);
+  }
+
+  toggleUeSelection(ue: Ue): void {
+    const registeredUEsArray = this.registeredUEsArray;
+    const index = registeredUEsArray.value.findIndex((registeredUe: any) => registeredUe.code === ue.code);
+    
+    if (index > -1) {
+      // Remove UE
+      registeredUEsArray.removeAt(index);
+    } else {
+      // Add UE
+      registeredUEsArray.push(this.fb.control({ code: ue.code }));
+    }
   }
 
   private generateRandomPassword(): string {
@@ -93,6 +138,12 @@ export class UserFormModalComponent implements OnInit, OnChanges {
       password: randomPassword,
       role: 'student'
     });
+    
+    // Clear the UEs FormArray
+    const registeredUEsArray = this.userForm.get('registeredUEs') as FormArray;
+    while (registeredUEsArray.length !== 0) {
+      registeredUEsArray.removeAt(0);
+    }
   }
 
 }

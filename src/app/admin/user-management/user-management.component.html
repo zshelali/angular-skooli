@@ -19,6 +19,7 @@
             <th>Email</th>
             <th>Password</th>
             <th>Role</th>
+            <th>Assigned UEs</th>
             <th class="text-end">Actions</th>
           </tr>
         </thead>
@@ -104,6 +105,23 @@
               </div>
             </td>
 
+            <!-- Assigned UEs -->
+            <td>
+              <span *ngIf="!isEditing(user._id!)">
+                <span *ngIf="user.registeredUEs && user.registeredUEs.length > 0; else noUEs">
+                  <span class="badge bg-secondary me-1" *ngFor="let ue of user.registeredUEs">
+                    {{ ue.code }}
+                  </span>
+                </span>
+                <ng-template #noUEs>
+                  <span class="text-muted">No UEs assigned</span>
+                </ng-template>
+              </span>
+              <div *ngIf="isEditing(user._id!)" class="text-muted">
+                <small>Use modal to edit UE assignments</small>
+              </div>
+            </td>
+
             <!-- Actions -->
             <td class="text-end">
               <div class="btn-group" role="group">
@@ -114,6 +132,15 @@
                   class="btn btn-sm btn-outline-primary"
                   title="Edit">
                   <i class="bi bi-pencil-square"></i>
+                </button>
+
+                <!-- Edit UEs Button -->
+                <button 
+                  *ngIf="!isEditing(user._id!)" 
+                  (click)="editUserUEs(user)" 
+                  class="btn btn-sm btn-outline-info"
+                  title="Edit UE Assignments">
+                  <i class="bi bi-list-check"></i>
                 </button>
 
                 <!-- Save Button -->

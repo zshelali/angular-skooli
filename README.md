@@ -59,7 +59,11 @@ db.ues.insertMany([{ code: "WE4A", name: "Développement web", description: "Ini
 
 ```
 
-$-Ali$
+Alternative, dans `mongosh`:
+```
+load("dossier_projet/seed.js")
+```
+
 ---- 
 
 # AngularSkooli

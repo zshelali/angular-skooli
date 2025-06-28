@@ -110,6 +110,11 @@ export class UserManagementComponent implements OnInit {
     });
   }
 
+  editUserUEs(user: User): void {
+    this.userToEdit = user;
+    this.showModal = true;
+  }
+
   onModalClosed(): void {
     this.showModal = false;
     this.userToEdit = null;
@@ -117,18 +122,34 @@ export class UserManagementComponent implements OnInit {
 
   onFormSubmitted(user: User): void {
     console.log('🔍 Component received user data:', user);
-    // Only handle creation since editing is done inline
-    this.userService.createUser(user).subscribe({
-      next: (created) => {
-        console.log('🔍 Backend returned created user:', created);
-        this.users.unshift(created); // Add to beginning of array
-        this.onModalClosed();
-        console.log('User created successfully');
-      },
-      error: (error) => {
-        console.error('Error creating user:', error);
-      },
-    });
+    
+    if (this.userToEdit) {
+      // Update existing user
+      this.userService.updateUser(this.userToEdit._id!, user).subscribe({
+        next: (updated) => {
+          console.log('🔍 Backend returned updated user:', updated);
+          this.users = this.users.map((u) => (u._id === updated._id ? updated : u));
+          this.onModalClosed();
+          console.log('User updated successfully');
+        },
+        error: (error) => {
+          console.error('Error updating user:', error);
+        },
+      });
+    } else {
+      // Create new user
+      this.userService.createUser(user).subscribe({
+        next: (created) => {
+          console.log('🔍 Backend returned created user:', created);
+          this.users.unshift(created); // Add to beginning of array
+          this.onModalClosed();
+          console.log('User created successfully');
+        },
+        error: (error) => {
+          console.error('Error creating user:', error);
+        },
+      });
+    }
   }
 
   // Helper method to mark all fields as touched for validation display
