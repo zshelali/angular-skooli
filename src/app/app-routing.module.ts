@@ -6,10 +6,11 @@ import { ProfileComponent } from './profile/profile.component';
 
 import { AuthGuard } from './guards/auth.guard';
 import {UeComponent} from "./ue/ue.component";
+import { HomeRedirectGuard } from './guards/home-redirect.guard';
 
 
 const routes: Routes = [
-  { path: '', component: HomeComponent},
+  { path: '', component: HomeComponent, canActivate: [HomeRedirectGuard]},
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'login',
     loadChildren: () =>
