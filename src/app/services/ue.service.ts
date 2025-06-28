@@ -9,7 +9,7 @@ import { Ue } from '../models/ue.interface';
   providedIn: 'root'
 })
 export class UeService {
-  private apiUrl = 'http://localhost:3000/api/Ue';
+  private apiUrl = 'http://localhost:3000/api/ue';
 
   constructor(private http: HttpClient) {}
 
