@@ -6,6 +6,7 @@ import { AuthService } from '../services/auth.service';
 
 
 
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -91,4 +92,14 @@ export class DashboardComponent implements OnInit {
     this.showAddUeForm = false;
 
   }
+
+  getUserRole(): string | null {
+    const user = localStorage.getItem('user');
+    if (user) {
+      const parsedUser = JSON.parse(user);
+      return parsedUser.role || null;
+    }
+    return null;
+  }
+
 }
