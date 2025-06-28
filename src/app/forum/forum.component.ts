@@ -1,52 +1,46 @@
 import { Component, OnInit } from '@angular/core';
 import { ForumService } from '../services/forum.service';
+import {AuthService} from '../services/auth.service';
+import { Forum } from '../models/forum.interface';
+import { Message } from '../models/messages.interface'
+import {ActivatedRoute} from "@angular/router";
 
-interface Message {
-  author: { name: string; email: string };
-  text: string;
-  createdAt?: string;
-}
 
-interface Forum {
-  _id?: string;
-  title: string;
-  creator: { name: string; email: string };
-  messages: Message[];
-  createdAt?: string;
-  ueCode?: string;
 
-  // Props front uniquement
-  showMessages?: boolean;
-  newMessage?: string;
-}
+
 
 @Component({
   selector: 'app-forum',
   templateUrl: './forum.component.html',
   styleUrls: ['./forum.component.css']
 })
+
 export class ForumComponent implements OnInit {
 
-  currentUser = { name: 'Jean Dupont', email: 'jean@example.com', role: 'etudiant' };
+  //currentUser = { name: 'Jean Dupont', email: 'jean@example.com', role: 'etudiant' };
   forums: Forum[] = [];
   showAddForm = false;
   newTitle = '';
 
-  constructor(private forumService: ForumService) {}
+  constructor(
+    private forumService: ForumService,
+    private authService: AuthService,
+    private route : ActivatedRoute,
+  ) {}
 
   ngOnInit(): void {
     this.loadForums();
   }
 
   canCreateForum(): boolean {
-  return this.currentUser.role === 'prof';
+  return this.authService.getUserRole() === 'prof';
 }
 
   loadForums(): void {
-  this.forumService.getForums().subscribe({
+
+  this.forumService.getForums(this.route.snapshot.paramMap.get('id')).subscribe({
     next: data => {
       this.forums = data
-        .filter(f => true)
         .map(f => ({
           ...f,
           showMessages: false,
@@ -64,11 +58,12 @@ export class ForumComponent implements OnInit {
       return;
     }
 
-    const newForum = {
+    const newForum: Forum = {
       title: this.newTitle,
-      creator: this.currentUser,
+      creatorName: this.authService.getLastName() || "John",
+      creatorEmail: this.authService.getCurrentUser().email,
       messages: [],
-      ueCode: 'IT41',
+      ueCode: this.route.snapshot.paramMap.get('id') || "",
       createdAt: new Date().toISOString()
     };
 
@@ -103,7 +98,8 @@ export class ForumComponent implements OnInit {
 
   if (forum.newMessage?.trim()) {
     const message: Message = {
-      author: this.currentUser,
+      authorName: this.authService.getLastName() || "John",
+      authorEmail: this.authService.getCurrentUser().email,
       text: forum.newMessage,
       createdAt: new Date().toISOString()
     };

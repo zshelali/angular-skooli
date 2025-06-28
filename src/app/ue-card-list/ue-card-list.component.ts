@@ -12,7 +12,8 @@ export class UeCardListComponent implements OnInit {
 
   UeCardArray: Ue[] = [];
 
-  constructor(private dashboardService: DashboardService, private authService: AuthService) { }
+  constructor(private dashboardService: DashboardService, private authService: AuthService) {
+  }
 
   ngOnInit(): void {
     this.loadUserUe()

@@ -28,8 +28,8 @@ import { DevoirComponent } from './devoir/devoir.component';
     ModuleUEComponent,
     ModuleUEListComponent,
     UeComponent,
+    DevoirComponent,
     ForumComponent,
-    DevoirComponent
 
   ],
   imports: [

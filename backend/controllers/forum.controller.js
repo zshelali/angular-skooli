@@ -4,7 +4,8 @@ const { ObjectId } = require('mongodb');
 exports.getForums = async(req, res) => {
     try {
         const db = getDB();
-        const forums = await db.collection('forums').find().toArray();
+        const ueId = req.params.id;
+        const forums = await db.collection('forums').find({ueCode: ueId}).toArray();
         res.json(forums);
     } catch (err) {
         console.error('Erreur récupération forums :', err);
@@ -18,7 +19,8 @@ exports.createForum = async(req, res) => {
         const forum = {
             ueCode: req.body.ueCode,
             title: req.body.title,
-            creator: req.body.creator,
+            creatorName: req.body.creatorName,
+            creatorEmail: req.body.creatorEmail,
             messages: [],
             createdAt: new Date()
         };
@@ -37,7 +39,8 @@ exports.addMessageToForum = async(req, res) => {
 
     const message = {
         text: req.body.text,
-        author: req.body.author,
+        authorName: req.body.authorName,
+        authorEmail: req.body.authorEmail,
         createdAt: new Date()
     };
 
