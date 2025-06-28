@@ -32,6 +32,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     const userInfo = this.authService.getCurrentUser();
     this.userService.getSpecificUser(userInfo.email).subscribe((data: User) => this.user = data);
+    this.user.email = userInfo.email;
   }
 
   ngAfterViewInit(): void {
