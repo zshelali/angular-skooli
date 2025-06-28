@@ -21,7 +21,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 router.post('/', upload.single('file'), devoirController.submitDevoir);
-router.get("/", devoirController.getAllDevoirs);
+router.get("/:code", devoirController.getAllDevoirs);
 router.patch("/:id", devoirController.noterDevoir);
 
 

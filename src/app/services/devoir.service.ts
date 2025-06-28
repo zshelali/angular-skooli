@@ -14,8 +14,8 @@ export class DevoirService {
     return this.http.post(this.apiUrl, devoir);
   }
 
-  getDevoirsByUe(ueCode: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/${ueCode}`);
+  getDevoirsByUe(code: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/${code}`);
   }
 
   gradeDevoir(devoirId: string, note: number, commentaire: string): Observable<any> {

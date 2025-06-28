@@ -1,23 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Forum } from '../models/forum.interface'
+import { Message } from '../models/messages.interface'
 
-interface Message {
-  author: { name: string; email: string };
-  text: string;
-  createdAt?: string;
-}
 
-interface Forum {
-  _id?: string;
-  title: string;
-  creator: { name: string; email: string };
-  messages: Message[];
-  createdAt?: string;
-  showMessages?: boolean;
-  newMessage?: string;
-  ueCode?: string; // optionnel pour l’instant
-}
+
 
 
 export interface Topic {
@@ -37,8 +25,8 @@ export class ForumService {
 
   constructor(private http: HttpClient) {}
 
-  getForums(): Observable<Forum[]> {
-    return this.http.get<Forum[]>(this.apiUrl);
+  getForums(ueId: any): Observable<Forum[]> {
+    return this.http.get<Forum[]>(`${this.apiUrl}/${ueId}`);
   }
 
   addTopic(forum: Partial<Forum>): Observable<Forum> {
@@ -46,7 +34,7 @@ export class ForumService {
   }
 
   addMessage(forumId: string, message: Message): Observable<any> {
-  return this.http.post(`${this.apiUrl}/${forumId}/messages`, message);
+  return this.http.post(`${this.apiUrl}/${forumId}`, message);
 }
 
 

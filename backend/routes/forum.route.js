@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/forum.controller');
 
-router.get('/', controller.getForums);
+router.get('/:id', controller.getForums);
 router.post('/', controller.createForum);
-router.post('/:id/messages', controller.addMessageToForum);
+router.post('/:id', controller.addMessageToForum);
 
 
 module.exports = router;

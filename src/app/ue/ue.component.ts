@@ -7,6 +7,7 @@ import {UeService} from "../services/ue.service";
 import {ActivatedRoute} from "@angular/router";
 import {Ue} from "../models/ue.interface";
 import { Module } from "../models/module.interface"
+import { AuthService } from "../services/auth.service";
 
 
 @Component({
@@ -41,12 +42,17 @@ export class UeComponent implements OnInit {
     private userService: UserService,
     private ueService: UeService,
     private route: ActivatedRoute,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
     this.loadUe()
     this.loadUsers();
     this.loadModules();
+  }
+
+  getUserRole(): string {
+    return this.authService.getUserRole() || "student";
   }
 
   loadUe(): void {

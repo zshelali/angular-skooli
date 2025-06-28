@@ -6,7 +6,7 @@ exports.submitDevoir = async(req, res) => {
     try {
         const db = getDB();
 
-        const { titre, etudiant } = req.body;
+        const { titre, etudiant, codeUe } = req.body;
         const fichier = req.file;
 
         if (!titre || !etudiant || !fichier) {
@@ -17,6 +17,7 @@ exports.submitDevoir = async(req, res) => {
             titre,
             etudiant: JSON.parse(etudiant),
             nomFichier: fichier.originalname,
+            codeUe,
             path: `/uploads/devoirs/${fichier.filename}`, // ✅ chemin HTTP exploitable
             dateSoumission: new Date()
         };
@@ -32,8 +33,9 @@ exports.submitDevoir = async(req, res) => {
 
 exports.getAllDevoirs = async(req, res) => {
     try {
+      const code = req.params.code
         const db = getDB();
-        const devoirs = await db.collection("devoirs").find().toArray();
+        const devoirs = await db.collection("devoirs").find({codeUe: code}).toArray();
         res.json(devoirs);
     } catch (err) {
         console.error("❌ Erreur récupération devoirs :", err);
