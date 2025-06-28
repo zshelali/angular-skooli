@@ -1,6 +1,8 @@
 const { getDB } = require("../db");
 const { ObjectId } = require("mongodb");
 
+
+
 async function getAllUes(req, res) {
   try {
     const db = await getDB();
@@ -37,6 +39,7 @@ async function createUe(req, res) {
     res.status(500).json({ error: "Failed to create UE (server😡)" });
   }
 }
+
 
 async function updateUe(req, res) {
   const ueId = req.params.id;
@@ -94,3 +97,19 @@ module.exports = {
   updateUe,
   deleteUe,
 };
+
+async function getCurrentUe(req, res) {
+  try {
+    const db = getDB();
+    const codeUE = req.params.id;
+    console.log(codeUE);
+    const ue = await db.collection("ues").findOne({ code: codeUE });
+    console.log(ue);
+    res.json(ue);
+  } catch (err) {
+    console.error('❌ Erreur récupération information UE :', err);
+    res.status(500).json({message: 'Erreur serveur', error: err });
+  }
+}
+
+module.exports = { getAllUes, createUe, getCurrentUe, updateUe };

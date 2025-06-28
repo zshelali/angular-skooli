@@ -4,10 +4,10 @@
             <div class="card shadow-sm">
                 <div class="card-body text-center">
                     <div class="mb-4">
-                        <a href="{{ user.profile_picture }}" target="_blank" rel="noopener noreferrer">
-                            <img [src]="user.profile_picture" class="rounded-circle border shadow-sm mb-2" width="80" height="80" alt="Profile" data-bs-toggle="tooltip" data-bs-placement="left" title="Open in new tab" />
+                        <a href="{{ user.profilePicture }}" target="_blank" rel="noopener noreferrer">
+                            <img [src]="user.profilePicture" class="rounded-circle border shadow-sm mb-2" width="80" height="80" alt="Profile" data-bs-toggle="tooltip" data-bs-placement="left" title="Open in new tab" />
                         </a>
-                        <h4 class="card-title mb-0">{{ user.name }} {{ user.lastname }}</h4>
+                        <h4 class="card-title mb-0">{{ user.firstName }} {{ user.lastName }}</h4>
                     </div>
                     <hr />
 
@@ -19,7 +19,7 @@
                         <div class="col-md-6 mb-3">
                             <h6 class="text-muted">Inscription date</h6>
                             <p class="mb-0">
-                                {{ user.inscription_date | date : "dd.MM.yyy" }}
+                                {{ user.createdAt | date : "dd.MM.yyy" }}
                             </p>
                         </div>
                     </div>
