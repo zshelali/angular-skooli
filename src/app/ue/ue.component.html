@@ -26,7 +26,7 @@
     <div *ngIf="activeTab === 'cours'">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h3 class="mb-0">Modules</h3>
-            <button class="btn btn-outline-success me-3" (click)="showAddForm = !showAddForm">
+            <button *ngIf="getUserRole() === 'prof'" class="btn btn-outline-success me-3" (click)="showAddForm = !showAddForm">
               <i class="bi bi-plus-lg"></i>
             </button>
         </div>
