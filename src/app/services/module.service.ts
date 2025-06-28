@@ -1,17 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Module } from '../models/module.interface'
 
-export interface ModuleData {
-  title: string;
-  description: string;
-  files: {
-    name: string;
-    url: string;
-    type: string;
-  }[];
-  isOpen: boolean;
-}
+
 
 @Injectable({
   providedIn: 'root'
@@ -21,11 +13,11 @@ export class ModuleService {
 
   constructor(private http: HttpClient) {}
 
-  addModule(module: ModuleData): Observable<ModuleData> {
-    return this.http.post<ModuleData>(this.apiUrl, module);
+  addModule(module: Module): Observable<Module> {
+    return this.http.post<Module>(this.apiUrl, module);
   }
 
-  getModules(): Observable<ModuleData[]> {
-    return this.http.get<ModuleData[]>(this.apiUrl);
+  getModules(code: any): Observable<Module[]> {
+    return this.http.get<Module[]>(`${this.apiUrl}/${code}`);
   }
 }

@@ -3,7 +3,8 @@ const { getDB } = require('../db');
 async function getAllModules(req, res) {
     try {
         const db = getDB();
-        const modules = await db.collection('modules').find().toArray();
+        const code = req.params.code;
+        const modules = await db.collection('modules').find({codeUe: code}).sort({updatedAt: -1}).toArray();
         res.json(modules);
     } catch (err) {
         console.error('❌ Erreur GET modules :', err);

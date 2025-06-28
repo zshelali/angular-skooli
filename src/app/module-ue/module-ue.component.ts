@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Module } from 'src/class/Module'
+import { Module } from '../models/module.interface'
 
 @Component({
   selector: 'app-module-ue',

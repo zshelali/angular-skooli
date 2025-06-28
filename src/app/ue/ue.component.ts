@@ -6,6 +6,7 @@ import { ForumService } from '../services/forum.service';
 import {UeService} from "../services/ue.service";
 import {ActivatedRoute} from "@angular/router";
 import {Ue} from "../models/ue.interface";
+import { Module } from "../models/module.interface"
 
 
 @Component({
@@ -64,7 +65,8 @@ export class UeComponent implements OnInit {
   }
 
   loadModules(): void {
-    this.moduleService.getModules().subscribe({
+    const ueId = this.route.snapshot.paramMap.get('id');
+    this.moduleService.getModules(ueId).subscribe({
       next: (data) => this.modules = data,
       error: (err) => console.error('Erreur chargement modules :', err)
     });
@@ -79,15 +81,17 @@ export class UeComponent implements OnInit {
   }
 
   addModule(): void {
-    const mappedModule = {
+    const mappedModule: Module = {
       title: this.newModule.title,
       description: this.newModule.description,
+      codeUe: this.route.snapshot.paramMap.get('id') || "0",
       files: this.newModule.files.map(file => ({
         name: file.name,
         url: 'assets/files/' + file.name,
         type: file.type.includes('pdf') ? 'pdf' :
               file.type.includes('image') ? 'image' : 'other'
       })),
+      creationDate: new Date(),
       isOpen: false
     };
 
