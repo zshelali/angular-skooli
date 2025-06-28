@@ -14,6 +14,7 @@ import { UeService } from 'src/app/services/ue.service';
 export class UserFormModalComponent implements OnInit, OnChanges {
   @Input() userToEdit: User | null = null;
   @Input() visible = false;
+  @Input() ueEditMode = false;
   @Output() formSubmitted = new EventEmitter<User>();
   @Output() modalClosed = new EventEmitter<void>();
 
@@ -40,11 +41,11 @@ export class UserFormModalComponent implements OnInit, OnChanges {
     const randomPassword = this.userToEdit ? '' : this.generateRandomPassword();
     
     this.userForm = this.fb.group({
-      firstName: [this.userToEdit?.firstName || '', Validators.required],
-      lastName: [this.userToEdit?.lastName || '', Validators.required],
-      email: [this.userToEdit?.email || '', [Validators.required, Validators.email]],
-      password: [randomPassword, this.userToEdit ? [] : Validators.required], // Required for new users
-      role: [this.userToEdit?.role || 'student', Validators.required],
+      firstName: [this.userToEdit?.firstName || '', this.ueEditMode ? [] : Validators.required],
+      lastName: [this.userToEdit?.lastName || '', this.ueEditMode ? [] : Validators.required],
+      email: [this.userToEdit?.email || '', this.ueEditMode ? [] : [Validators.required, Validators.email]],
+      password: [randomPassword, this.ueEditMode ? [] : (this.userToEdit ? [] : Validators.required)],
+      role: [this.userToEdit?.role || 'student', this.ueEditMode ? [] : Validators.required],
       registeredUEs: this.fb.array([]) // Add FormArray for UEs
     });
 
@@ -105,23 +106,38 @@ export class UserFormModalComponent implements OnInit, OnChanges {
   }
 
   submit(): void {
-    if (this.userForm.valid) {
-      const formData = { ...this.userForm.value };
-      
-      // For editing, don't send password if it's empty (keep current password)
-      if (this.userToEdit && !formData.password) {
-        delete formData.password;
-      }
-      
-      // For creating, ensure password is included
-      const userData: User = this.userToEdit ? 
-        { ...this.userToEdit, ...formData } : 
-        formData;
-      
-      console.log('🔍 Modal submitting user data:', userData);
+    console.log('🔍 Modal: Submit called with UE Edit Mode:', this.ueEditMode);
+    console.log('🔍 Modal: Form valid:', this.userForm.valid);
+    console.log('🔍 Modal: Form value:', this.userForm.value);
+
+    if (this.ueEditMode) {
+      // In UE edit mode, only validate and send UE assignments
+      const userData: User = {
+        ...this.userToEdit!,
+        registeredUEs: this.registeredUEsArray.value
+      };
+      console.log('🔍 Modal: Sending UE-only update:', userData);
       this.formSubmitted.emit(userData);
     } else {
-      console.log('Form is invalid:', this.userForm.errors);
+      // Normal mode - validate full form
+      if (this.userForm.valid) {
+        const formData = { ...this.userForm.value };
+        
+        // For editing, don't send password if it's empty (keep current password)
+        if (this.userToEdit && !formData.password) {
+          delete formData.password;
+        }
+        
+        // For creating, ensure password is included
+        const userData: User = this.userToEdit ? 
+          { ...this.userToEdit, ...formData } : 
+          formData;
+        
+        console.log('🔍 Modal: Sending full user data:', userData);
+        this.formSubmitted.emit(userData);
+      } else {
+        console.log('Form is invalid:', this.userForm.errors);
+      }
     }
   }
 

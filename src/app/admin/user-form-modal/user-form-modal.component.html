@@ -3,51 +3,68 @@
     <div class="modal-content">
 
       <div class="modal-header">
-        <h5 class="modal-title">{{ userToEdit ? 'Edit User' : 'Create User' }}</h5>
+        <h5 class="modal-title">
+          {{ ueEditMode ? 'Edit UE Assignments' : (userToEdit ? 'Edit User' : 'Create User') }}
+        </h5>
         <button type="button" class="btn-close" (click)="close()"></button>
       </div>
 
       <div class="modal-body">
         <form [formGroup]="userForm" (ngSubmit)="submit()">
-          <div class="mb-3">
-            <label class="form-label">First Name</label>
-            <input class="form-control" formControlName="firstName">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Last Name</label>
-            <input class="form-control" formControlName="lastName">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Email</label>
-            <input type="email" class="form-control" formControlName="email">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Password</label>
-            <div class="input-group">
-              <input type="text" class="form-control" formControlName="password" 
-                     [placeholder]="userToEdit ? 'Enter new password (leave blank to keep current)' : 'Generated password'">
-              <button type="button" class="btn btn-outline-secondary" 
-                      (click)="regeneratePassword()"
-                      title="Generate new random password">
-                <i class="bi bi-arrow-clockwise"></i>
-              </button>
+          
+          <!-- Show user info when in UE edit mode -->
+          <div *ngIf="ueEditMode && userToEdit" class="mb-3">
+            <div class="alert alert-info">
+              <strong>Editing UE assignments for:</strong><br>
+              {{ userToEdit.firstName }} {{ userToEdit.lastName }} ({{ userToEdit.email }})
             </div>
-            <div class="form-text">
-              {{ userToEdit ? 'Enter new password to reset it (leave blank to keep current)' : 'Random password generated - you can modify it' }}
-            </div>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Role</label>
-            <select class="form-control" formControlName="role">
-              <option value="student">Student</option>
-              <option value="prof">Professor</option>
-              <option value="admin">Admin</option>
-              <option value="profadmin">Professor + Admin</option>
-            </select>
           </div>
           
+          <!-- Show user details only if NOT in UE edit mode -->
+          <div *ngIf="!ueEditMode">
+            <div class="mb-3">
+              <label class="form-label">First Name</label>
+              <input class="form-control" formControlName="firstName">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Last Name</label>
+              <input class="form-control" formControlName="lastName">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Email</label>
+              <input type="email" class="form-control" formControlName="email">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Password</label>
+              <div class="input-group">
+                <input type="text" class="form-control" formControlName="password" 
+                       [placeholder]="userToEdit ? 'Enter new password (leave blank to keep current)' : 'Generated password'">
+                <button type="button" class="btn btn-outline-secondary" 
+                        (click)="regeneratePassword()"
+                        title="Generate new random password">
+                  <i class="bi bi-arrow-clockwise"></i>
+                </button>
+              </div>
+              <div class="form-text">
+                {{ userToEdit ? 'Enter new password to reset it (leave blank to keep current)' : 'Random password generated - you can modify it' }}
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Role</label>
+              <select class="form-control" formControlName="role">
+                <option value="student">Student</option>
+                <option value="prof">Professor</option>
+                <option value="admin">Admin</option>
+                <option value="profadmin">Professor + Admin</option>
+              </select>
+            </div>
+          </div>
+          
+          <!-- UE Assignment section - always visible -->
           <div class="mb-3">
-            <label class="form-label">Assigned UEs</label>
+            <label class="form-label">
+              {{ ueEditMode ? 'UE Assignments' : 'Assigned UEs' }}
+            </label>
             <div class="form-text mb-2">Select the UEs this user should be registered for:</div>
             <div class="row" *ngIf="availableUes.length > 0; else noUesMessage">
               <div class="col-md-6" *ngFor="let ue of availableUes">
@@ -74,7 +91,7 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="close()">Cancel</button>
         <button type="submit" class="btn btn-primary" (click)="submit()">
-          {{ userToEdit ? 'Update' : 'Create' }}
+          {{ ueEditMode ? 'Update UE Assignments' : (userToEdit ? 'Update' : 'Create') }}
         </button>
       </div>
 

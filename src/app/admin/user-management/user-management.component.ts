@@ -20,6 +20,7 @@ export class UserManagementComponent implements OnInit {
   // Modal properties
   showModal = false;
   userToEdit: User | null = null;
+  ueEditMode = false;
 
   constructor(private userService: UserService, private fb: FormBuilder) { }
 
@@ -103,6 +104,7 @@ export class UserManagementComponent implements OnInit {
   // Modal methods
   openCreateModal(): void {
     this.userToEdit = null;
+    this.ueEditMode = false;
     this.showModal = true;
 
     setTimeout(() => {
@@ -112,12 +114,14 @@ export class UserManagementComponent implements OnInit {
 
   editUserUEs(user: User): void {
     this.userToEdit = user;
+    this.ueEditMode = true;
     this.showModal = true;
   }
 
   onModalClosed(): void {
     this.showModal = false;
     this.userToEdit = null;
+    this.ueEditMode = false;
   }
 
   onFormSubmitted(user: User): void {
