@@ -37,7 +37,8 @@ async function authController(req, res) {
         return res.status(200).json({
             message: 'Login successful.🗡️',
             user: {
-                name: user.name,
+                firstName: user.firstName,
+                lastName: user.lastName,
                 email: user.email,
                 role: user.role
             },
