@@ -15,8 +15,16 @@ export class UeCardListComponent implements OnInit {
   constructor(private dashboardService: DashboardService, private authService: AuthService) { }
 
   ngOnInit(): void {
-    const userInfo = this.authService.getCurrentUser() || null;
+    this.loadUserUe()
+  }
+
+  loadUserUe(): void {
+    const userInfo = this.authService.getCurrentUser();
     this.dashboardService.getUserUe(userInfo.email).subscribe(data => this.UeCardArray = data);
+  }
+
+  isEmpty(): boolean {
+    return !!this.UeCardArray;
   }
 
 }

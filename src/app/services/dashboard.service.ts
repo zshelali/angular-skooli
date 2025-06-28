@@ -17,6 +17,10 @@ export class DashboardService {
     return this.http.get<Ue[]>(`${this.apiUrl}/${email}`);
   }
 
+  addUeToUser(email: string, code: string): Observable<string> {
+    return this.http.post<string>(this.apiUrl, {email,code});
+  }
+
 
 }
 

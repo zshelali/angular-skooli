@@ -16,18 +16,20 @@ const { getDB } = require('../db');
       console.error('❌ User not found' );
       return res.status(404).json({message: 'Utilisateur introuvable.'});
     }
-    console.log(user.registeredUEs);
 
     if (!user.registeredUEs || !Array.isArray(user.registeredUEs) || user.registeredUEs.length === 0) {
       return res.json({ues: []});
     }
 
     const codes = (user.registeredUEs || []).map(ue => ue.code)
-
-    const ues = await db.collection('ues').find({code: {$in: codes}}).toArray();
-    for(let ue of ues) {
-      console.log(ue);
+    let ues = undefined;
+    if (user.role === "profadmin" || user.role === "admin") {
+      ues = await db.collection("ues").find().toArray();
+    }else{
+     ues = await db.collection('ues').find({code: {$in: codes}}).toArray();
     }
+
+
     return res.json(ues);
 
   } catch (err) {
@@ -38,9 +40,11 @@ const { getDB } = require('../db');
 async function addUserUe(req, res) {
   try {
     const db = getDB();
-    const newCode = req.params.codeUe;
-    const userEmail = req.body;
-    const user = await db.collection("users").updateOne({ email: userEmail }, { $push: { registeredUes: {code: newCode} } } );
+    const userEmail = req.body.email;
+    console.log('affichage code : ' + userEmail);
+    const newCode = req.body.code;
+    console.log('affichage email : ' + newCode);
+    const user = await db.collection("users").updateOne({ email: userEmail }, { $push: { registeredUEs: {code: newCode} } } );
     res.json({message: 'RegisteredUes updated.'});
   }catch(error) {
     res.status(500).json({message: "Erreur serveur", error})
