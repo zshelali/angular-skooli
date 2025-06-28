@@ -40,16 +40,16 @@ your mongosh terminal to insert basic data in the database ( le mot de passe pou
 
 ```mongosh
 db.users.insertMany([{firstName: "Jean", lastName: "Pierre", email: "jean.pierre@gmail.com",
-  password: "$2a$12$IrsXVOJ3Z5g9g03ySJuqbuwyUg2vgtSMLdJWY2WV8Cjsf0NKdvuqa",  role: "student",
+  password: "$$2b$10$ZbL3GzXW/wjt5EkuWxG0Je22upCTL.k98w9KJ1N3UDP6.N2JsXS7m",  role: "student",
   registeredUEs: [ { code: "WE4A" } ] },
   {firstName: "Justine", lastName: "Prévaut", email: "justine.prevaut@gmail.com",
-  password: "$2a$12$IrsXVOJ3Z5g9g03ySJuqbuwyUg2vgtSMLdJWY2WV8Cjsf0NKdvuqa",  role: "student",
+  password: "$2b$10$ZbL3GzXW/wjt5EkuWxG0Je22upCTL.k98w9KJ1N3UDP6.N2JsXS7m",  role: "student",
   registeredUEs: [ { code: "IT41" } ] },
   {firstName: "Henri", lastName: "Duval", email: "henri.duval@gmail.com",
-  password: "$2a$12$IrsXVOJ3Z5g9g03ySJuqbuwyUg2vgtSMLdJWY2WV8Cjsf0NKdvuqa",  role: "prof",
+  password: "$2b$10$ZbL3GzXW/wjt5EkuWxG0Je22upCTL.k98w9KJ1N3UDP6.N2JsXS7m",  role: "prof",
   registeredUEs: [ { code: "WE4A" }, { code: "IT41" } ] },
   {firstName: "Jean", lastName: "Arc", email: "jean.arc@gmail.com",
-  password: "$2a$12$IrsXVOJ3Z5g9g03ySJuqbuwyUg2vgtSMLdJWY2WV8Cjsf0NKdvuqa",  role: "admin",} ] );
+  password: "$2b$10$ZbL3GzXW/wjt5EkuWxG0Je22upCTL.k98w9KJ1N3UDP6.N2JsXS7m",  role: "admin",} ] );
 
 db.ues.insertMany([{ code: "WE4A", name: "Développement web", description: "Initiation au développement pour site internet",
     updatedAt: ISODate("2025-03-02T15:46:05.000Z"), illustration: "assets/img/it41_gpt.png"}, 
