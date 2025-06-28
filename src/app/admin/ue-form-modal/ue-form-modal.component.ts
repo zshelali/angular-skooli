@@ -42,4 +42,13 @@ export class UeFormModalComponent implements OnInit {
     this.modalClosed.emit();
   }
 
+  resetForm(): void {
+  this.ueForm.reset({
+    code: '',
+    name: '',
+    description: '',
+    credits: 0
+  });
+}
+
 }

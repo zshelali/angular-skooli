@@ -2,25 +2,29 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UeService } from 'src/app/services/ue.service';
 import { Ue } from 'src/app/models/ue.interface';
+import { ViewChild } from '@angular/core';
+import { UeFormModalComponent } from '../ue-form-modal/ue-form-modal.component';
 
 @Component({
   selector: 'app-ue-management',
   templateUrl: './ue-management.component.html',
-  styleUrls: ['./ue-management.component.css']
+  styleUrls: ['./ue-management.component.css'],
 })
 export class UeManagementComponent implements OnInit {
+  @ViewChild(UeFormModalComponent) modalComponent!: UeFormModalComponent;
 
   ues: Ue[] = [];
   editingUeId: string | null = null;
   editForm!: FormGroup;
 
-  constructor(
-    private ueService: UeService,
-    private fb: FormBuilder
-  ) {}
+  // Modal properties
+  showModal = false;
+  ueToEdit: Ue | null = null;
+
+  constructor(private ueService: UeService, private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    this.ueService.getAll().subscribe(data => this.ues = data);
+    this.ueService.getAll().subscribe((data) => (this.ues = data));
     this.initializeForm();
   }
 
@@ -29,7 +33,7 @@ export class UeManagementComponent implements OnInit {
       code: ['', [Validators.required]],
       name: ['', [Validators.required]],
       description: [''],
-      credits: [0, [Validators.required, Validators.min(1)]]
+      credits: [0, [Validators.required, Validators.min(1)]],
     });
   }
 
@@ -39,13 +43,13 @@ export class UeManagementComponent implements OnInit {
 
   startEdit(ue: Ue): void {
     this.editingUeId = ue._id!;
-    
+
     // Populate the form with current UE data
     this.editForm.patchValue({
       code: ue.code,
       name: ue.name,
       description: ue.description,
-      credits: ue.credits
+      credits: ue.credits,
     });
   }
 
@@ -53,21 +57,21 @@ export class UeManagementComponent implements OnInit {
     if (this.editForm.valid && this.editingUeId) {
       const updatedUe: Ue = {
         ...this.editForm.value,
-        _id: this.editingUeId
+        _id: this.editingUeId,
       };
 
       console.log('Saving UE:', updatedUe);
-      
+
       this.ueService.update(this.editingUeId, updatedUe).subscribe({
         next: (updated) => {
           // Update the UE in the array
-          this.ues = this.ues.map(u => u._id === updated._id ? updated : u);
+          this.ues = this.ues.map((u) => (u._id === updated._id ? updated : u));
           this.cancelEdit();
           console.log('UE updated successfully');
         },
         error: (error) => {
           console.error('Error updating UE:', error);
-        }
+        },
       });
     } else {
       console.log('Form is invalid');
@@ -83,15 +87,44 @@ export class UeManagementComponent implements OnInit {
   deleteUe(id: string): void {
     if (confirm('Are you sure you want to delete this UE?')) {
       this.ueService.delete(id).subscribe(() => {
-        this.ues = this.ues.filter(ue => ue._id !== id);
+        this.ues = this.ues.filter((ue) => ue._id !== id);
         console.log('UE deleted successfully');
       });
     }
   }
 
+  // Modal methods
+  openCreateModal(): void {
+    this.ueToEdit = null;
+    this.showModal = true;
+
+    setTimeout(() => {
+      this.modalComponent?.resetForm();
+    });
+  }
+
+  onModalClosed(): void {
+    this.showModal = false;
+    this.ueToEdit = null;
+  }
+
+  onFormSubmitted(ue: Ue): void {
+    // Only handle creation since editing is done inline
+    this.ueService.add(ue).subscribe({
+      next: (created) => {
+        this.ues.unshift(created); // Add to beginning of array
+        this.onModalClosed();
+        console.log('UE created successfully');
+      },
+      error: (error) => {
+        console.error('Error creating UE:', error);
+      },
+    });
+  }
+
   // Helper method to mark all fields as touched for validation display
   private markFormGroupTouched(): void {
-    Object.keys(this.editForm.controls).forEach(key => {
+    Object.keys(this.editForm.controls).forEach((key) => {
       this.editForm.get(key)?.markAsTouched();
     });
   }

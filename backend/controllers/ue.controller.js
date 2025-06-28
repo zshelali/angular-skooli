@@ -41,7 +41,10 @@ async function createUe(req, res) {
 
     const db = getDB();
     const result = await db.collection("ues").insertOne(ue);
-    res.status(201).json({ message: 'UE saved', id: result.insertedId });
+
+    const insertedUe = await db.collection("ues").findOne({ _id: result.insertedId });
+
+    res.status(201).json(insertedUe);
   } catch (err) {
     console.error("Error creating UE:😢", err);
     res.status(500).json({ error: "Failed to create UE (server😡)" });
