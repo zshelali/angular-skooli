@@ -38,4 +38,9 @@ export class UserService {
   getSpecificUser(email: string): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}/${email}`);
   }
+  getUsersByUE(code: string): Observable<User[]> {
+  return this.http.get<User[]>(`http://localhost:3000/api/users/by-ue/${code}`);
+}
+
+
 }

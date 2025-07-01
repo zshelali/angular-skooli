@@ -49,7 +49,27 @@ export class UeComponent implements OnInit {
     this.loadUe()
     this.loadUsers();
     this.loadModules();
+    this.loadUeAndUsers();
+
   }
+
+  loadUeAndUsers(): void {
+  const ueId = this.route.snapshot.paramMap.get('id');
+
+  this.ueService.getCurrent(ueId).subscribe({
+    next: (data) => {
+      this.ue = data;
+      console.log('✅ UE chargée :', this.ue);
+
+      // Appelle loadUsers maintenant que this.ue.code est prêt
+      this.loadUsers();
+    },
+    error: (err) => {
+      console.error('❌ Erreur chargement UE :', err);
+    }
+  });
+}
+
 
   getUserRole(): string {
     return this.authService.getUserRole() || "student";
@@ -64,11 +84,20 @@ export class UeComponent implements OnInit {
   }
 
   loadUsers(): void {
-    this.userService.getUsers().subscribe({
-      next: (data) => this.users = data,
-      error: (err) => console.error('Erreur chargement utilisateurs :', err)
-    });
-  }
+  const ueCode = this.ue.code;
+  if (!ueCode) return;
+
+  console.log('UE Code utilisé pour filtrer les utilisateurs :', ueCode);
+
+  this.userService.getUsersByUE(ueCode).subscribe({
+    next: (data) => {
+      console.log('✅ Utilisateurs reçus :', data);
+      this.users = data;
+    },
+    error: (err) => console.error('❌ Erreur chargement utilisateurs :', err)
+  });
+}
+
 
   loadModules(): void {
     const ueId = this.route.snapshot.paramMap.get('id');
