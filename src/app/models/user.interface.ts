@@ -5,6 +5,7 @@ export interface User {
     email: string;
     password?: string;
     profilePicture?: string;
+    illustration?: string;          // Profile picture path
   
     role?: 'student' | 'prof' | 'admin' | 'profadmin'; 
   

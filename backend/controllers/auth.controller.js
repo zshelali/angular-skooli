@@ -41,7 +41,8 @@ async function authController(req, res) {
                 lastName: user.lastName,
                 email: user.email,
                 role: user.role,
-                createdAt: user.updatedAt
+                createdAt: user.updatedAt,
+                illustration: user.illustration 
             },
             token: token
         })
