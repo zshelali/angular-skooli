@@ -31,8 +31,19 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     const userInfo = this.authService.getCurrentUser();
-    this.userService.getSpecificUser(userInfo.email).subscribe((data: User) => this.user = data);
-    this.user.email = userInfo.email;
+    if (userInfo) {
+      // Start with the user data from localStorage (which has createdAt from login)
+      this.user = { ...userInfo };
+      
+      // Then fetch fresh data from the server
+      this.userService.getSpecificUser(userInfo.email).subscribe((data: User) => {
+        // Merge server data with local data, preserving createdAt if server doesn't have it
+        this.user = {
+          ...data,
+          createdAt: data.createdAt || userInfo.createdAt
+        };
+      });
+    }
   }
 
   ngAfterViewInit(): void {

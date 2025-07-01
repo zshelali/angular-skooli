@@ -168,7 +168,15 @@ async function getSpecificUser(req, res) {
     const db = getDB();
     const emailUser = req.params.email;
     const user = await db.collection("users").findOne({ email: emailUser });
-    res.json(user);
+    
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    
+    // Remove password from response for security
+    const { password, ...userWithoutPassword } = user;
+    
+    res.json(userWithoutPassword);
   } catch (err) {
     console.error('❌ Erreur récupération utilisateur :', err);
     res.status(500).json({ message: 'Erreur serveur', error: err });

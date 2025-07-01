@@ -17,9 +17,9 @@
                             <p class="mb-0">{{ user.role!.charAt(0).toUpperCase() + user.role!.slice(1) }}</p>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <h6 class="text-muted">Inscription date</h6>
+                            <h6 class="text-muted">Updated profile on</h6>
                             <p class="mb-0">
-                                {{ user.createdAt | date : "dd.MM.yyy" }}
+                                {{ user.createdAt | date : "dd.MM.yyyy" }}
                             </p>
                         </div>
                     </div>
